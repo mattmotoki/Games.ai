@@ -1,4 +1,5 @@
 # Ultimate Connect Four
+Connect four with added features
 
 ## Implemented
 * 2 player mode on fixed 6x7 grid
