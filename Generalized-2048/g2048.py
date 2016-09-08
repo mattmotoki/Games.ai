@@ -32,16 +32,6 @@ class game:
 			print('|     ' + row + '|')
 		print('-'*(len(row) + 7))
 
-	# def print_board(self):
-		# print('\nScore: ' + str(self.score))
-		# for k in range(h):
-			# row = self.board[k,:]
-			# row = ' '.join(str(e) for e in row)
-			# row = row.replace('0','.')
-			# print('| ' + row + ' |')
-
-		# print('-'*11)		
-
 	#------------------
 	# enter a random piece into the board
 	def add_block(self):
