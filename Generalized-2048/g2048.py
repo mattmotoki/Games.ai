@@ -12,7 +12,7 @@ class game:
 	# attributes
 	#------------------
 	def __init__(self, w, h):
-		self.board = np.zeros((w,h), dtype=np.int)  # board
+		self.board = np.zeros((h,w), dtype=np.int)  # board
 		self.score = 0
 
 	#------------------
@@ -21,7 +21,7 @@ class game:
 	# display the status of the board
 	def print_board(self):
 		print('\nScore: ' + str(self.score))
-		for k in range(w):
+		for k in range(h):
 			row = deepcopy(self.board[k,:])
 			row[row==0] = -1
 
@@ -38,8 +38,6 @@ class game:
 		free_cells = np.where(self.board==0)
 		ind = np.random.choice(len(free_cells[0]), 1)
 		self.board[free_cells[0][ind], free_cells[1][ind]] = np.random.choice([2,4], 1, p=[0.75, 0.25])[0]
-		os.system('cls')
-		self.print_board()
 		return None
 
 	#------------------
@@ -88,13 +86,12 @@ class game:
 		# loop through rows/cols and combine
 		def implement_move(move):
 			# implement move
-			N = w if move in ['left', 'right'] else h
+			N = h if move in ['left', 'right'] else w
 			self.board = rotate_board(move)
 			for i in range(N):
 				row = self.board[i,:]
 				self.board[i,:] = combine_left(row)
-			self.board = unrotate_board(move)
-			return None
+			return unrotate_board(move)
 
 		# check if the game has been lost
 		def game_over_check():
@@ -104,7 +101,7 @@ class game:
 			# if board is full then check all four moves
 			old_board = deepcopy(self.board)
 			for move in ['left', 'right', 'down', 'up']:
-				implement_move(move)
+				self.board = implement_move(move)
 				if (old_board != self.board).any(): return None
 
 			# if the above fails to return then game over
@@ -122,18 +119,26 @@ class game:
 		while (old_board == self.board).all():
 			# get move
 			move = get_move()
-			implement_move(move)
+			self.board = implement_move(move)
 
 	#------------------
 	# put everything together
 	def play_game(self):
 		while True:
-			self.add_block() # update board
-			self.move_blocks() # get move
+			# update board
+			self.add_block() 
+			os.system('cls')
+			self.print_board()
+			
+			# get move
+			self.move_blocks() 
 
 
-w, h = 4, 4 # not variable yet
+w, h = 4, 3 # not variable yet
 g = game(w,h)
-g.play_game()
+print(g.board)
+g.add_block()
+print(g.board)
+#g.play_game()
 
 
