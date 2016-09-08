@@ -1,8 +1,11 @@
 from random import randint
 from sys import exit
 from msvcrt import getch
+from copy import deepcopy
 import numpy as np
 import string
+import os
+
 
 
 
@@ -14,7 +17,6 @@ class game:
 	def __init__(self, w, h):
 		self.board = np.zeros((h,w), dtype=np.int)  # board
 		self.score = 0
-		self.changed = False
 
 	#------------------
 	# methods
@@ -35,26 +37,26 @@ class game:
 	def add_block(self):
 		free_cells = np.where(self.board==0)
 		ind = np.random.choice(len(free_cells[0]), 1)
-		self.board[free_cells[0][ind], free_cells[1][ind]] = 2
-		self.print_board()
+		self.board[free_cells[0][ind], free_cells[1][ind]] = np.random.choice([2,4], 1, p=[0.75, 0.25])[0]
 		return None
 
-    
 	#------------------
-	# implement move    
-	def get_move(self):
-		print('Press any arrow key:')
-		while True:
-			key = ord(getch())
-			if key == 27: break
-			elif key == 224: 
-				key = ord(getch())
-				if key == 80: return 'down'
-				if key == 72: return 'up'
-				if key == 77: return 'right'
-				if key == 75: return 'left'
-
+	# implement move
 	def move_blocks(self):
+		def get_move():
+			os.system('cls')
+			self.print_board()
+			print('Press any arrow key:')
+			while True:
+				key = ord(getch())
+				if key == 27: break
+				elif key == 224: 
+					key = ord(getch())
+					if key == 80: return 'down'
+					if key == 72: return 'up'
+					if key == 77: return 'right'
+					if key == 75: return 'left'
+					
 		def combine_left(row):
 			row = [x for x in row if x!=0 ]
 			i=0
@@ -77,17 +79,20 @@ class game:
 			if move == 'left': return self.board
 			if move == 'right': return np.fliplr(self.board)
 			if move == 'up': return np.transpose(self.board)
-			if move == 'down': return np.transpose(np.fliplr(self.board))				
+			if move == 'down': return np.transpose(np.fliplr(self.board))
 		
-		# get move
-		move = self.get_move()
-		
-		# implement move
-		self.board = rotate_board(move)
-		for i in range(4):
-			row = self.board[i,:]
-			self.board[i,:] = combine_left(row)
-		self.board = unrotate_board(move)
+		# update board
+		old_board = deepcopy(self.board)
+		while (old_board == self.board).all():
+			# get move
+			move = get_move()
+			
+			# implement move
+			self.board = rotate_board(move)
+			for i in range(4):
+				row = self.board[i,:]
+				self.board[i,:] = combine_left(row)
+			self.board = unrotate_board(move)
 		
 		
 w, h = 4, 4 # not variable yet
