@@ -6,6 +6,7 @@
 * stocahstic blocks
 
 ## To do
+* bug when grid is full
 * heuristic policies
 * rollout method
 
