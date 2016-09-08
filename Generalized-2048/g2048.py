@@ -22,11 +22,15 @@ class game:
 	def print_board(self):
 		print('\nScore: ' + str(self.score))
 		for k in range(w):
-			row = self.board[k,:]
-			row = ' '.join(str(e) for e in row)
-			row = row.replace('0','.')
-			print('| ' + row + ' |')
-		print('-'*(5 + 2*(w-1)))
+			row = deepcopy(self.board[k,:])
+			row[row==0] = -1
+
+			row = [str(x) + '      ' for x in row]
+			row = [x[:6] for x in row]
+			row = ''.join(x for x in row)
+			row = row.replace('-1', '. ')
+			print('|     ' + row + '|')
+		print('-'*(len(row) + 7))
 
 	# def print_board(self):
 		# print('\nScore: ' + str(self.score))
@@ -138,7 +142,7 @@ class game:
 			self.move_blocks() # get move
 
 
-w, h = 5, 4 # not variable yet
+w, h = 4, 4 # not variable yet
 g = game(w,h)
 g.play_game()
 
