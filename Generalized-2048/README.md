@@ -3,7 +3,9 @@
 
 ## Implemented
 
-## To Do
+## To do
+* fix print spacing
+
+## Extra features
 * Add a 1 or 3 block into the game
-* Make variable size grid
 * Make obstacles
