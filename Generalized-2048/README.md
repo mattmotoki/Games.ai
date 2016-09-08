@@ -4,7 +4,8 @@
 ## Implemented
 
 ## To do
-* fix print spacing
+* heuristic policies
+* rollout method
 
 ## Extra features
 * Add a 1 or 3 block into the game
