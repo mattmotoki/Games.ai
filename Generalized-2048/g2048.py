@@ -24,7 +24,6 @@ class game:
 		for k in range(h):
 			row = deepcopy(self.board[k,:])
 			row[row==0] = -1
-
 			row = [str(x) + '      ' for x in row]
 			row = [x[:6] for x in row]
 			row = ''.join(x for x in row)
@@ -136,9 +135,6 @@ class game:
 
 w, h = 4, 3 # not variable yet
 g = game(w,h)
-print(g.board)
-g.add_block()
-print(g.board)
-#g.play_game()
+g.play_game()
 
 
