@@ -180,10 +180,12 @@ class game:
 			#time.sleep(0.01) 
 			self.board = self.implement_move(move)			
 			self.feasible_moves = [] # reset feasible moves
+
+			
 		
 
 w, h = 4, 4 # not variable yet
 g = game(w,h)
-g.play_game_ai()
+g.play_game()
 
 
