@@ -61,16 +61,17 @@ class game:
 	# check if the game has been lost
 	def game_over_check(self):
 		# check if board is full
-		if (self.board==0).any(): return None
+		if (self.board==0).any(): return False
 		
 		# check if any moves are feasible
-		if self.feasible_moves: return None
+		if self.feasible_moves: return False
 		
 		# otherwise game over
-		os.system('cls')
-		self.print_board()
-		print('Game over. No posssible moves.  Thanks for playing!')
-		exit()
+		#os.system('cls')
+		#self.print_board()
+		#print('Game over. No posssible moves.  Thanks for playing!')
+		return True
+		#exit()
 			
 	#------------------
 	# implement a move 
@@ -151,7 +152,7 @@ class game:
 			
 			# check to see if the game is over
 			self.update_feasible_moves()
-			self.game_over_check()
+			if self.game_over_check(): return self.score
 			
 			# get move
 			move = ''
@@ -164,20 +165,19 @@ class game:
 	#------------------
 	# use heuristic strategy
 	def play_game_heuristic(self):
-		heuristic_policy = ['right', 'down', 'left']
+		heuristic_policy = ['right', 'down', 'left', 'up']
 		while True:
 			# update board
 			self.add_block() 
-			os.system('cls')
-			self.print_board()
+			#os.system('cls')
+			#self.print_board()
 			
 			# check to see if the game is over
 			self.update_feasible_moves()
-			self.game_over_check()
+			if self.game_over_check(): return self.score
 			
 			# get move from the heuristic_policy
 			move = next(x for x in heuristic_policy if x in self.feasible_moves)
-			#time.sleep(0.01) 
 			self.board = self.implement_move(move)			
 			self.feasible_moves = [] # reset feasible moves		
 
@@ -189,12 +189,12 @@ class game:
 		while True:
 			# update board
 			self.add_block() 
-			os.system('cls')
-			self.print_board()
+			#os.system('cls')
+			#self.print_board()
 			
 			# check to see if the game is over
 			self.update_feasible_moves()
-			self.game_over_check()
+			if self.game_over_check(): return self.score
 			
 			# calculate the greedy decision
 			n_feasible = len(self.feasible_moves)
@@ -208,14 +208,68 @@ class game:
 					new_score[move] = self.score + heuristic_score[move]
 					self.score = base_score
 				move = max(new_score, key=new_score.get)
-			print(move)
-			#time.sleep(0.01) 
+			#print(move)
 			self.board = self.implement_move(move)			
 			self.feasible_moves = [] # reset feasible moves
 
+	#------------------
+	# use greedy heuristic blend strategy
+	def play_game_greedy_heuristic_blend(self):
+		heuristic_policy = ['right', 'down', 'left']
+		heuristic_score = {'right':3, 'down':1, 'left':0.5, 'up':0} # to break ties
+		while True:
+			# update board
+			self.add_block() 
+			#os.system('cls')
+			#self.print_board()
+			
+			# check to see if the game is over
+			self.update_feasible_moves()
+			if self.game_over_check(): return self.score
+			
+			# calculate the greedy decision
+			n_feasible = len(self.feasible_moves)
+			if n_feasible==1:
+				move = self.feasible_moves[0]
+			else:
+				base_score = self.score
+				new_score = dict(zip(self.feasible_moves, [0]*n_feasible))
+				for move in self.feasible_moves:
+					self.implement_move(move)
+					new_score[move] = self.score + heuristic_score[move]
+					self.score = base_score
+				move = max(new_score, key=new_score.get)
+			#print(move)
+			self.board = self.implement_move(move)			
+			self.feasible_moves = [] # reset feasible moves
 			
 w, h = 4, 4 # not variable yet
-g = game(w,h)
-g.play_game_greedy()
+
+# calculate expected values
+n_games = 100
+
+
+score = 0
+for k in range(n_games):
+	g = game(w,h)
+	g.play_game_heuristic()
+	score += g.score
+print('heuristic_score:' + str(score/n_games))
+
+
+score = 0
+for k in range(n_games):
+	g = game(w,h)
+	g.play_game_greedy()
+	score += g.score
+print('greedy_score:' + str(score/n_games))
+
+
+score = 0
+for k in range(n_games):
+	g = game(w,h)
+	g.play_game_greedy_heuristic_blend()
+	score += g.score
+print('greedy_heuristic_blend_score:' + str(score/n_games))
 
 
