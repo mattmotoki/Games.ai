@@ -5,6 +5,8 @@ from copy import deepcopy
 import numpy as np
 import string
 import os
+import time
+
 
 
 class game:
@@ -22,16 +24,17 @@ class game:
 	# display the status of the board
 	def print_board(self):
 		print('\nScore: ' + str(self.score))
+		board = deepcopy(self.board)
 		for k in range(h):
-			row = deepcopy(self.board[k,:])
+			row = board[k,:]
 			row[row==0] = -1
-
 			row = [str(x) + '      ' for x in row]
 			row = [x[:6] for x in row]
 			row = ''.join(x for x in row)
 			row = row.replace('-1', '. ')
 			print('|     ' + row + '|')
 		print('-'*(len(row) + 7))
+		print('Press any of the following arrow key(s):')
 
 	#------------------
 	# enter a random piece into the board
@@ -42,22 +45,52 @@ class game:
 		return None
 
 	#------------------
-	# implement move
-	
-	#------------------
-	# implement move
-	def move_blocks(self):
-		def get_move():
-			while True:
+	# get user input for move
+	def get_move():
+		while True:
+			key = ord(getch())
+			if key == 27: print('Thanks for playing!');   exit()
+			elif key == 224: 
 				key = ord(getch())
-				if key == 27: break
-				elif key == 224: 
-					key = ord(getch())
-					if key == 80: return 'down'
-					if key == 72: return 'up'
-					if key == 77: return 'right'
-					if key == 75: return 'left'
+				if key == 80: return 'down'
+				if key == 72: return 'up'
+				if key == 77: return 'right'
+				if key == 75: return 'left'
 
+	#------------------
+	# check if the game has been lost
+	def game_over_check(self):
+		# check if board is full
+		if (self.board==0).any(): return None
+		
+		# check if any moves are feasible
+		if self.feasible_moves: return None
+		
+		# otherwise game over
+		os.system('cls')
+		self.print_board()
+		print('Game over. No posssible moves.  Thanks for playing!')
+		exit()
+			
+	#------------------
+	# implement a move 
+	
+	# rotate board so combine_left can be applied
+	def rotate_board(board, move):
+		if move == 'left': return board
+		if move == 'right': return np.fliplr(board)
+		if move == 'up': return np.transpose(board)
+		if move == 'down': return np.fliplr(np.transpose(board))
+		
+	# rotate board to original orientation
+	def unrotate_board(board, move):
+		if move == 'left': return board
+		if move == 'right': return np.fliplr(board)
+		if move == 'up': return np.transpose(board)
+		if move == 'down': return np.transpose(np.fliplr(board))
+	
+	# implement a given move 	
+	def implement_move(self, move):
 		# move and combine all entries to the left
 		def combine_left(row):
 			N = len(row)
@@ -66,64 +99,46 @@ class game:
 			k = len(row)
 			while i < k-1:
 				if row[i] == row[i+1]:
-					self.score += 2*row[i]
 					row[i] *= 2
+					self.score += row[i]
 					del row[i+1]
 					k-=1
 				else: i+=1
 			return row + [0]*(N-k)
-
-		# rotate board so combine_left can be applied
-		def rotate_board(move):
-			if move == 'left': return self.board
-			if move == 'right': return np.fliplr(self.board)
-			if move == 'up': return np.transpose(self.board)
-			if move == 'down': return np.fliplr(np.transpose(self.board))
-
-		# rotate board to original orientation
-		def unrotate_board(move):
-			if move == 'left': return self.board
-			if move == 'right': return np.fliplr(self.board)
-			if move == 'up': return np.transpose(self.board)
-			if move == 'down': return np.transpose(np.fliplr(self.board))
-
+		
+		# make a copy of the board
+		board = deepcopy(self.board)
+		
 		# loop through rows/cols and combine
-		def implement_move(move):
-			# implement move
-			N = h if move in ['left', 'right'] else w
-			self.board = rotate_board(move)
-			for i in range(N):
-				row = self.board[i,:]
-				self.board[i,:] = combine_left(row)
-			return unrotate_board(move)
+		M = h if move in ['left', 'right'] else w
+		board = game.rotate_board(board, move)
+		for i in range(M):
+			row = board[i,:]
+			board[i,:] = combine_left(row)
+		return game.unrotate_board(board, move)
 
-		# check if the game has been lost
-		def game_over_check():
-			# check if board is full
-			if (self.board==0).any(): return None
+	#------------------
+	# if board is full then check all four moves
+	def update_feasible_moves(self):
+		# see if move to the left is feasible
+		def move_left_is_feasible(row): 
+			# if we can remove zeros
+			if (np.diff(0+(row>0))>0).any(): return True
+			
+			# see if blocks can be combined
+			row = [x for x in row if x!=0 ]
+			if len(row)>1: return any([ x==y for (x,y) in zip(row[:-1], row[1:])])
+			return False
 
-			# if board is full then check all four moves
-			old_board = deepcopy(self.board)
-			for move in ['left', 'right', 'down', 'up']:
-				self.board = implement_move(move)
-				if (old_board != self.board).any(): return None
-
-			# if the above fails to return then game over
-			os.system('cls')
-			self.print_board()
-			print('Game over. No posssible moves.  Thanks for playing!')
-			exit()
-
-		# check to see that moves are even possible
-		game_over_check()
-
-		# update board
-		print('Press any arrow key:')
-		old_board = deepcopy(self.board)
-		while (old_board == self.board).all():
-			# get move
-			move = get_move()
-			self.board = implement_move(move)
+		# check all moves
+		for move in ['left', 'right', 'down', 'up']:
+			M = h if move in ['left', 'right'] else w
+			board = deepcopy(self.board)
+			board = game.rotate_board(board, move)
+			for i in range(M):
+				if move_left_is_feasible(board[i,:]):
+					self.feasible_moves.append(move)
+					break
 
 	#------------------
 	# put everything together
@@ -134,15 +149,41 @@ class game:
 			os.system('cls')
 			self.print_board()
 			
+			# check to see if the game is over
+			self.update_feasible_moves()
+			self.game_over_check()
+			
 			# get move
-			self.move_blocks() 
+			move = ''
+			print(self.feasible_moves)
+			while move not in self.feasible_moves:
+				move = game.get_move()
+			self.board = self.implement_move(move)			
+			self.feasible_moves = [] # reset feasible moves
 
+	#------------------
+	# use heuristic strategy
+	def play_game_ai(self):
+		heuristic_policy = ['right', 'down', 'left']
+		while True:
+			# update board
+			self.add_block() 
+			os.system('cls')
+			self.print_board()
+			
+			# check to see if the game is over
+			self.update_feasible_moves()
+			self.game_over_check()
+			
+			# get move from the heuristic_policy
+			move = next(x for x in heuristic_policy if x in self.feasible_moves)
+			#time.sleep(0.01) 
+			self.board = self.implement_move(move)			
+			self.feasible_moves = [] # reset feasible moves
+		
 
-w, h = 4, 3 # not variable yet
+w, h = 4, 4 # not variable yet
 g = game(w,h)
-print(g.board)
-g.add_block()
-print(g.board)
-#g.play_game()
+g.play_game_ai()
 
 
