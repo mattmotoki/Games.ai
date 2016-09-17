@@ -13,6 +13,7 @@ Connect four with added features
 * objective definition
     * connect-n (variable size n)
     * horizontal/vertical/diagonal connection
+    * max score
 * player move definition  
     * swap pieces
     * remove piece
