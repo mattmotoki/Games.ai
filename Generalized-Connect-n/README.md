@@ -1,4 +1,4 @@
-# Ultimate Connect Four
+# Generalized Connect-n
 Connect four with added features
 
 ## Implemented
