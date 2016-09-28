@@ -17,6 +17,7 @@ Connect four with added features
 * special pieces definition
     * bomb
     * drill (drop column)
+    * non-transparent special pieces (need a bomb or drill to pass through)
     * uni- and bi-directional wildcards
     * player dependent wildcards
     
