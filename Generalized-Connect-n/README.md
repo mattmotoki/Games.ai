@@ -4,7 +4,7 @@ Connect four with added features
 ## Implemented
 * game design
    * variable sized grid
-   * variable length connection criteria
+   * variable length connection criterion
    * fixed-location wildcard pieces
    * fixed-location null pieces
    
