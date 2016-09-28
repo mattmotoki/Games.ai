@@ -7,6 +7,7 @@ Connect four with added features
    * variable length connection criterion
    * fixed-location wildcard pieces
    * fixed-location null pieces
+   * random initial board configuration
    
 * opponent
    * random opponent
@@ -21,6 +22,7 @@ Connect four with added features
     
 * board definition
     * allow border wrap
+    * use a 20d normal to randomize inital board
     
 * objective definition
     * connect-n (variable size n)
