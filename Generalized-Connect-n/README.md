@@ -2,20 +2,33 @@
 Connect four with added features
 
 ## Implemented
-* 2 player mode on fixed 6x7 grid
+* game design
+   * variable sized grid
+   * variable length connection criteria
+   * fixed-location wildcard pieces
+   * fixed-location null pieces
+   
+* opponent
+   * random opponent
+   * greedy opponent using a one step look ahead with state values from a random opponent
 
 ## To do:
+* special pieces definition
+    * bomb
+    * drill (drop column)
+    * uni- and bi-directional wildcards
+    * player dependent wildcards
+    
 * board definition
-    * variable sized grid
     * allow border wrap
-    * add fixed free cells
-    * add fixed blocks
+    
 * objective definition
     * connect-n (variable size n)
     * horizontal/vertical/diagonal connection
     * max score
+    * finite piece supply (time limit)
+    
 * player move definition  
     * swap pieces
     * remove piece
-    * insert block
-    * drop column(s)
+
