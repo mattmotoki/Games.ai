@@ -25,10 +25,13 @@ Connect four with added features
     * uni- and bi-directional wildcards
     * player dependent wildcards
 
-    
+* opponent development
+  * aggregate state space
+  * multi-step look ahead
+  * approximate state values using supervised learning
+
 * objective definition
     * connect-n (variable size n)
-    * horizontal/vertical/diagonal connection
     * max score
     * finite piece supply (time limit)
     
