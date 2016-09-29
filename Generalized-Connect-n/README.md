@@ -8,7 +8,11 @@ Connect four with added features
    * fixed-location wildcard pieces
    * fixed-location null pieces
    * random initial board configuration
-   
+    
+* board definition
+    * allow border wrap
+    * use a 2-d normal to randomize inital board
+
 * opponent
    * random opponent
    * greedy opponent using a one step look ahead with state values from a random opponent
@@ -20,10 +24,7 @@ Connect four with added features
     * non-transparent special pieces (need a bomb or drill to pass through)
     * uni- and bi-directional wildcards
     * player dependent wildcards
-    
-* board definition
-    * allow border wrap
-    * use a 2-d normal to randomize inital board
+
     
 * objective definition
     * connect-n (variable size n)
