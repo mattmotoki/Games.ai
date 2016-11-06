@@ -1,0 +1,92 @@
+---
+title: "Cell Division Tutorial"
+output: 
+  html_document:
+    toc: TRUE
+    toc_depth: 2
+    toc_float: 
+      collapsed: false
+    theme: flatly
+---
+<!--
+simplex
+cosmo
+united
+readable
+date: "`r format(Sys.time(), '%d %B, %Y')`"
+-->
+
+<!-- <img src="logo.png" style="position:absolute;top:0px;right:10px;" /> -->
+
+
+
+# Introduction 
+Cell Division is a strategy-based board game with a biology/chemisty inspired theme.  Select any *open* position to insert your cell.  Cells divide into more cells whenever a connection of the same color is made (horizontal, vertical, and diagonal connections are allowed). Your score is equal to the total number of cells with your color. The game ends once the board is full.  The player with the highest score at the end of the game score wins!
+
+
+# How to Play
+Players take turns placing their cells in an *open* position.  
+
+You can define who moves first by specifying the **First Move** parameter. 
+
+## Rules
+horizontal, vertical, and diagonal
+
+## Gravity
+
+
+## Scoring
+
+Your score at any moment in the game is equal to the total number of cells with your color. 
+
+As a visual aid, the opacity of a cell increases with the number of divisions.  
+
+*Note that on boards with an odd number of cells, the player that goes first has an advantage.*
+
+
+## Extra Moves
+
+
+
+
+# Game Layout
+
+## Navigation Bar
+
+## Control Panel
+Here you can choose the size of the board, the player mode (either two player or A.I.), and the extra moves.  
+
+Click on the section header to fold/unfold sections. 
+
+
+## Main Panel
+
+### Information Display
+Shows the score of both players as well who is winning and the number of remaining moves left in the game. 
+At the end of the game, a message indicating the winner is displayed.  You can click on this message to assess the game statitics.  
+
+
+### Board Display
+Click anywhere in an open position to place your move. Gravity applies when you are playing in the beaker or flask layout.
+
+
+
+### Action Buttons
+
+The reset button removes all moves from the board.   
+
+In two player mode, the undo move button removes the last cell played in the game; in A.I. mode, the undo move button removes the last two cells played in the game.  
+
+
+To view cell connections from the display, click the show/hide connections button. 
+
+
+
+
+
+
+
+
+
+
+
