@@ -14,11 +14,8 @@ ui <- navbarPage(
   title = "Cell Division",
   
   # tutorial
-  tabPanel("Tutorial", 
-           icon = icon("play-circle"), 
-           fluidPage( 
-             tags$iframe(src = file.path("Rmarkdown", "tutorial.html"), height=600, width = "100%" ) 
-           ) 
+  tabPanel("Tutorial", icon = icon("play-circle"), 
+           fluidPage( tags$iframe(src = file.path("Rmarkdown", "tutorial.html"), height=600, width = "100%" ) ) 
   ),
   
   # add game modules
@@ -27,11 +24,8 @@ ui <- navbarPage(
   gameUI("flask", "Flask", icon("flask")),
   
   # about page
-  tabPanel("About", 
-           icon = icon("info"),
-           fluidPage( 
-             tags$iframe(src = file.path("Rmarkdown", "about.html"), height=600, width = "100%" ) 
-           ) 
+  tabPanel("About", icon = icon("info"),
+           fluidPage( tags$iframe(src = file.path("Rmarkdown", "about.html"), height=600, width = "100%" ) ) 
   )
 )
 
