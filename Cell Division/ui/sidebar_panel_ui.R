@@ -1,11 +1,31 @@
 sidebarPanel(
-  width = 4,
+  width = 5,
   
   #--------------
   # header
   fluidRow(
-    column(12, p("Game Options", style = "color: #3BC4A1; font-size:24pt; padding:0px; margin:0px;"), align = "center")
+    column(8, p("Game Options", style = "color: #3BC4A1; font-size:24pt;"), align = "center"),
+    column(4,
+           fluidRow(
+             # column(12,
+                    tags$a(href = "Rmarkdown/tutorial.html", target = "_blank",
+                           HTML('<i class="fa fa-play-circle" aria-hidden="true"></i> Tutorial'),
+                           style = "color: #3BC4A1"),
+                    align = "right"            
+             # )
+           ),
+           fluidRow(
+             # column(12,
+                    tags$a(href = "Rmarkdown/about.html", target = "_blank",
+                           HTML('<i class="fa fa-info" aria-hidden="true"></i> About'),
+                           style = "color: #3BC4A1"),
+                    align = "right"            
+             # )           
+           )
+    )
   ),
+  br(),
+  
   
   #--------------
   # controls
@@ -18,7 +38,7 @@ sidebarPanel(
     # get the size of the board
     fluidRow( h4(actionLink(ns("board_size_link"), "Board Size", icon=icon("sort"))) ),
     fluidRow( id = ns("board_size_section"), uiOutput(ns("board_size_ui")) ),
-    
+    br(),
     
     # Opponent difficulty
     fluidRow(h4(actionLink(ns("player_options_link"), "Player Options", icon=icon("user")))),
@@ -38,9 +58,12 @@ sidebarPanel(
     )
   ),
   
+  
   #--------------
   # footnote
-  fluidRow( hr(style="background-color: #D0D0D0; height: 1px;") ),
+   hr(style="background-color: #D0D0D0; height: 1px;") ,
+  
+  # br(),
   fluidRow(
     column(12,
            tags$a(href = "https://github.com/mattmotoki/Games.ai/tree/master/Cell%20Division", target = "_blank",
@@ -49,4 +72,5 @@ sidebarPanel(
            align = "center"            
     )
   )
+  
 )

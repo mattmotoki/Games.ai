@@ -1,5 +1,5 @@
 mainPanel(
-  width = 8,
+  width = 7,
   fluidPage(
     #------------
     # Information Bar 

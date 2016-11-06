@@ -10,23 +10,11 @@ for (f in dir(file.path("www", "functions"), full.names = TRUE, recursive = TRUE
 
 # create user interface
 ui <- navbarPage(
-  theme=shinytheme("flatly"),
   title = "Cell Division",
-  
-  # tutorial
-  tabPanel("Tutorial", icon = icon("play-circle"), 
-           fluidPage( tags$iframe(src = file.path("Rmarkdown", "tutorial.html"), height=600, width = "100%" ) ) 
-  ),
-  
-  # add game modules
+  theme=shinytheme("flatly"), 
   gameUI("petri", "Petri", icon("dot-circle-o")),
   gameUI("beaker", "Beaker", icon("table")),
-  gameUI("flask", "Flask", icon("flask")),
-  
-  # about page
-  tabPanel("About", icon = icon("info"),
-           fluidPage( tags$iframe(src = file.path("Rmarkdown", "about.html"), height=600, width = "100%" ) ) 
-  )
+  gameUI("flask", "Flask", icon("flask"))
 )
 
 
