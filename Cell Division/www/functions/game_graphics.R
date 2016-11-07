@@ -36,7 +36,7 @@ add_player_moves <- function(connection_traj, p, h, margin_size=2) {
   
   # plot current moves
   rect(col0, row0, col0+1, row0+1,
-       col=ifelse(p==1,"springgreen2", "orangered2"), #"#3BC4A1", "#C43B5E"
+       col=ifelse(p==1, "#00FF7F", "#FF4500"), #"#3BC4A1", "#C43B5E"
        lty=3, border=NA)
   
   # convert ind to no margin row and col
@@ -47,6 +47,6 @@ add_player_moves <- function(connection_traj, p, h, margin_size=2) {
   lines(
     0.5*c( rbind(3*col0-col, 3*col-col0, NA) + 1 ),
     0.5*c( rbind(3*row0-row, 3*row-row0, NA) + 1 ),
-    col=ifelse(p==1,"springgreen4", "orangered4")
+    col=ifelse(p==1,"#006400", "#8B0000")
   )
 }
