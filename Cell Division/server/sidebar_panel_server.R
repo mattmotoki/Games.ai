@@ -1,14 +1,3 @@
-
-#------------------
-# section folding settings
-hide("visual_contols_section")
-observeEvent(input$board_size_link, toggle("board_size_section", anim=TRUE))
-observeEvent(input$player_options_link, toggle("player_options_section", anim=TRUE))
-observeEvent(input$visual_contols_link, toggle("visual_contols_section", anim=TRUE))
-# hide("extra_moves_section")
-# observeEvent(input$extra_moves_link, toggle("extra_moves_section", anim=TRUE))
-
-
 #------------------
 # board size control
 get_board_size_ui <- function(type) {
@@ -50,8 +39,6 @@ output$board_size_ui <- get_board_size_ui(type)
 
 
 
-#------------------
-# map user input to h and w
 # Petri Game
 observeEvent(input$petri_n, {
   ind <- which(petri_dims$n_cells<=as.numeric(input$petri_n))
@@ -83,9 +70,6 @@ observeEvent(input$inc_petri, {
     updateSelectInput(session, "petri_n", selected = as.character(petri_dims[ind]$n_cells))
   }
 })
-
-
-
 
 
 # Beaker Game
@@ -120,14 +104,6 @@ output$total_cells <- renderText(paste0("Total number of cells: ", rv$plot_param
 #------------------
 # opponent options
 
-# make and update first move display
-output$first_move_ui <- renderUI({
-  ns <- session$ns
-  new_choices <- list("1", "2")
-  names(new_choices) <- rv$playernames  
-  radioButtons(ns("first_move"), "First Move", new_choices, selected = isolate(rv$player)) 
-}) 
-
 
 # if player mode changes then update player names
 observeEvent(input$player_mode, {
@@ -141,12 +117,6 @@ observeEvent(input$player_mode, {
 })
 
 
-
-# display settings for adaptive or fixed difficulty
-observeEvent(input$adaptive, {
-  toggle("difficulty", condition = (input$adaptive=="0"), anim = TRUE)
-  toggle("skill", condition = (input$adaptive=="1"), anim = TRUE)
-})
 
 
 

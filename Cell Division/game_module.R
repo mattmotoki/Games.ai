@@ -20,21 +20,23 @@ play_game <- function(input, output, session, type) {
   
   # initialize reactive values
   source(file.path("www", "initial values", "initialize_rvs.R"),  local = TRUE)
-  
-  # Game Options
-  source(file.path("server", "sidebar_panel_server.R"),  local = TRUE)
 
-  
   # Move Implementations:  
   #  user move, AI move, undo move, reset all moves
   for (f in dir(file.path("server", "moves"), full.names = TRUE)) { source(f, local = TRUE) }
-  
   
   # Render Dynamic UI (server logic for all uiOutput): 
   #  info bar, 
   for (f in dir(file.path("server", "render_dynamic_UI"), full.names = TRUE)) { source(f, local = TRUE) }
   
   
+  # Game Options
+  for (f in dir(file.path("server", "game_options"), full.names = TRUE)) { source(f, local = TRUE) }
+  
+  source(file.path("server", "sidebar_panel_server.R"),  local = TRUE)
+
+  
+  source(file.path("server", "visual_effects.R"),  local = TRUE)
   
 
   
@@ -46,16 +48,8 @@ play_game <- function(input, output, session, type) {
   
   
   
-  
   # Plot Output
   output$board_plot <- renderPlot(plot_board( rv$plot_params, rv$connection_traj, rv$h), res = 10)
-  
-  
-  # # add user moves to the board
-  # source(file.path("server", "user_move_server.R"),  local = TRUE)
-  # 
-  # # add A.I.'s moves to the board
-  # source(file.path("server", "AI_move_server.R"),  local = TRUE)
   
   
   # Game Help
