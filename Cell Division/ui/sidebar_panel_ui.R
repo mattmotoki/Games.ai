@@ -53,7 +53,7 @@ sidebarPanel(
       ),
       column(6,
              fluidRow( uiOutput(ns("first_move_ui")) ),
-             fluidRow( radioButtons(ns("difficulty"), "Difficulty", list("Easy"="1", "Medium"="2", "Hard"="3"), selected="2") ),
+             fluidRow( radioButtons(ns("difficulty"), "Difficulty", list("Easy"="1", "Medium"="2", "Hard"="3"), selected="3") ),
              fluidRow( sliderInput(ns("skill"), "A.I. Skill", value=75, min=1, max=100, ticks=FALSE) ), 
              align="right"
       )
@@ -63,9 +63,7 @@ sidebarPanel(
   
   #--------------
   # footnote
-   hr(style="background-color: #D0D0D0; height: 1px;") ,
-  
-  # br(),
+  hr(style="background-color: #D0D0D0; height: 1px;") ,
   fluidRow(
     column(12,
            tags$a(href = "https://github.com/mattmotoki/Games.ai/tree/master/Cell%20Division", target = "_blank",

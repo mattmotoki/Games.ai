@@ -24,7 +24,7 @@ mainPanel(
     # Game Help
     
     # help text
-    fluidRow(uiOutput(ns("game_help_text")), align="center"),
+    fluidRow(uiOutput(ns("help_text")), align="center"),
 
     # buttons to show when game is over
     fluidRow(

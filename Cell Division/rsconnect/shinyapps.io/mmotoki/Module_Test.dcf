@@ -2,9 +2,9 @@ name: Module_Test
 account: mmotoki
 server: shinyapps.io
 appId: 135618
-bundleId: 606888
+bundleId: 607343
 url: https://mmotoki.shinyapps.io/Module_Test/
-when: 1478427881.87365
+when: 1478482227.23646
 asMultiple: FALSE
 asStatic: FALSE
 ignoredFiles: www/Rmarkdown/about.Rmd|www/Rmarkdown/tutorial.Rmd

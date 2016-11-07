@@ -42,4 +42,3 @@ rv <- reactiveValues(
   else { stop("Invalid board type") }    
 }
 
-# rv <- new_rv(type)

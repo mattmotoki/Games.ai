@@ -15,12 +15,14 @@ gameUI <- function(id, tab_name, tab_icon) {
   )
 }
 
-
 play_game <- function(input, output, session, type) {
   
-  # initialize reactive values
+  # Initialize Reactive Values
   source(file.path("www", "initial values", "initialize_rvs.R"),  local = TRUE)
-
+  
+  # Plot Output
+  output$board_plot <- renderPlot(plot_board( rv$plot_params, rv$connection_traj, rv$h), res = 10)
+  
   # Move Implementations:  
   #  user move, AI move, undo move, reset all moves
   for (f in dir(file.path("server", "moves"), full.names = TRUE)) { source(f, local = TRUE) }
@@ -29,34 +31,11 @@ play_game <- function(input, output, session, type) {
   #  info bar, 
   for (f in dir(file.path("server", "render_dynamic_UI"), full.names = TRUE)) { source(f, local = TRUE) }
   
-  
-  # Game Options
+  # Game Options:
+  #  board size, game help
   for (f in dir(file.path("server", "game_options"), full.names = TRUE)) { source(f, local = TRUE) }
-  
-  source(file.path("server", "sidebar_panel_server.R"),  local = TRUE)
 
-  
+  # Visual effects:
+  #  bottom main panel display, sidebar panel section folding, AI difficulty settings
   source(file.path("server", "visual_effects.R"),  local = TRUE)
-  
-
-  
-  
-  # swtich turns
-  observeEvent(input$switch_turns, {
-    updateRadioButtons(session, "first_move", selected = as.character(1+(input$first_move=="1")))
-  })
-  
-  
-  
-  # Plot Output
-  output$board_plot <- renderPlot(plot_board( rv$plot_params, rv$connection_traj, rv$h), res = 10)
-  
-  
-  # Game Help
-  source(file.path("server", "game_help_server.R"),  local = TRUE)
-  
 }
-
-
-
-
