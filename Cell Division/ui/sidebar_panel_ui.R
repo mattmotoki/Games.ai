@@ -31,6 +31,8 @@ sidebarPanel(
   # controls
   fluidPage(
     id = ns("sidebar_panel1"), 
+    
+    # change color of A.I. skill slider bar
     tags$style(HTML(".js-irs-0 .irs-single, .js-irs-0 .irs-bar-edge, .js-irs-0 .irs-bar {border: black; background: #C4A13B}")),
     tags$style(HTML(".js-irs-1 .irs-single, .js-irs-1 .irs-bar-edge, .js-irs-1 .irs-bar {border: black; background: #C4A13B}")),
     tags$style(HTML(".js-irs-2 .irs-single, .js-irs-2 .irs-bar-edge, .js-irs-2 .irs-bar {border: black; background: #C4A13B}")),

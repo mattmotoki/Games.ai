@@ -12,9 +12,9 @@ for (f in dir(file.path("www", "functions"), full.names = TRUE, recursive = TRUE
 ui <- navbarPage(
   title = "Cell Division",
   theme=shinytheme("flatly"), 
-  gameUI("petri", "Petri", icon("dot-circle-o")),
+  gameUI("petri", "Petri Dish", icon("dot-circle-o")),
   gameUI("beaker", "Beaker", icon("table")),
-  gameUI("flask", "Flask", icon("flask"))
+  gameUI("flask", "Erlenmeyer Flask", icon("flask"))
 )
 
 

@@ -3,7 +3,7 @@ mainPanel(
   fluidPage(
     #------------
     # Information Bar 
-    uiOutput(ns("info_bar")),
+    uiOutput(ns("info_bar_ui")),
     
     
     #------------
