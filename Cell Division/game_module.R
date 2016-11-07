@@ -1,6 +1,3 @@
-#3BC4A1 #C43B5E   (complimentary)
-#3BC4A1 #A13BC4 #C4A13B (triadic)
-#3BC4A1 #3BA3C4 #3B5EC4 #5C3BC4 #A13BC4 #C43BA3 (analogous)
 
 gameUI <- function(id, tab_name, tab_icon) {
   ns <- NS(id)
@@ -58,20 +55,6 @@ play_game <- function(input, output, session, type) {
   })
   
 
-
-  
-  # # switch sidebar panels
-  # # hide("sidebar_panel2") # initially hide second panel
-  # observeEvent(rv$timestep, {
-  #   if (rv$timestep==0) {
-  #     delay(500, toggle("sidebar_panel1", condition = TRUE, anim=TRUE, animType="fade", time=0.5))
-  #     toggle("sidebar_panel2", condition = FALSE, anim=TRUE, animType="fade", time=0.5)
-  #   } else {
-  #     toggle("sidebar_panel1", condition = FALSE, anim=TRUE, animType="fade", time=0.5)
-  #     delay(500, toggle("sidebar_panel2", condition = TRUE, anim=TRUE, animType="fade", time=0.5))
-  #   }
-  # })
-  
   
   
   # Plot Output
@@ -87,41 +70,6 @@ play_game <- function(input, output, session, type) {
 
   # Game Help
   source(file.path("server", "game_help_server.R"),  local = TRUE)
-  
-  # output$game_help <- renderUI({
-  #   
-  #   if (rv$timestep==0) {
-  #     p(game_help_text(type, rv$timestep), style="color: #C43B5E;")      
-  #   } else if (rv$timestep==rv$plot_params$n_cells){
-  #     # reset buttons
-  #     ns <- session$ns
-  #     fluidRow(
-  #       column(10, 
-  #              offset=1,
-  #              column(6, 
-  #                     actionButton(ns("play_again"), "Play Again", icon=icon("gamepad"), width="125px"),
-  #                     align="left"),
-  #              column(6,
-  #                     actionButton(ns("switch_turns"), "Switch Turns", icon=icon("exchange"), width="125px"),
-  #                     align="right")
-  #       )
-  #     )
-  #   } else {
-  #     # control buttons
-  #     ns <- session$ns
-  #     fluidRow(
-  #       column(10, 
-  #              offset=1,
-  #              column(6, 
-  #                     actionButton(ns("undo_move"), "Undo Move", icon=icon("rotate-left"), width="125px"), 
-  #                     align="left"),
-  #              column(6,
-  #                     actionButton(ns("reset_game"), "Reset Game", icon=icon("refresh"), width="125px"),
-  #                     align="right")
-  #       )
-  #     )
-  #   }
-  # })
   
 }
 

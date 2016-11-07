@@ -7,20 +7,20 @@ sidebarPanel(
     column(8, p("Game Options", style = "color: #3BC4A1; font-size:24pt;"), align = "center"),
     column(4,
            fluidRow(
-             # column(12,
+             column(12,
                     tags$a(href = "Rmarkdown/tutorial.html", target = "_blank",
                            HTML('<i class="fa fa-play-circle" aria-hidden="true"></i> Tutorial'),
                            style = "color: #3BC4A1"),
                     align = "right"            
-             # )
+             )
            ),
            fluidRow(
-             # column(12,
+             column(12,
                     tags$a(href = "Rmarkdown/about.html", target = "_blank",
                            HTML('<i class="fa fa-info" aria-hidden="true"></i> About'),
                            style = "color: #3BC4A1"),
                     align = "right"            
-             # )           
+             )
            )
     )
   ),
