@@ -28,7 +28,6 @@ implement_move <- function(rv, ind0) {
   
   # update connections (if any)
   outline <- intersect(rv$adj_ind + ind0, rv$open_pos)
-  # line_color <- ifelse(player==1, "springgreen4", "orangered4") # "", ""
   if (rv$overlap[[player]][ind0]>0) {
     # set lone_cell
     rv$lone_cell[[player]][ind0] <- -Inf
@@ -43,8 +42,7 @@ implement_move <- function(rv, ind0) {
       
       # update connection trajectory
       rv$connection_traj <- rbind(rv$connection_traj, list(ind0, ind, player, timestep))
-      # rv$connection_traj[1:2 + 3*(timestep-1), player] <- c(ind, ind0)
-      
+
       # reduce lone_cell
       if (rv$lone_cell[[player]][ind] == Inf) {
         rv$lone_cell[[player]][ind] <- -Inf
@@ -77,10 +75,6 @@ implement_move <- function(rv, ind0) {
     rv$openness[ind0] 
   
 
-  # # update score matrix
-  # rv$score <- matrix(1, dim(rv$board)[1], dim(rv$board)[2])
-  # rv$score
-  
   # switch players
   rv$player <- as.character((player==1)+1)
  

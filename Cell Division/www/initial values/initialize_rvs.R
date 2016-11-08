@@ -26,6 +26,7 @@ rv <- reactiveValues(
   # matrices
   board = NULL,
   score = NULL,
+  centrality = NULL,
   openness = NULL,
   interlap = list(), 
   overlap = list(), 

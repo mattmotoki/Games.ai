@@ -52,22 +52,21 @@ on_first_click <- function(rv, type) {
   rv$board[rv$open_pos] <- 0
   
   #----------
-  # score, extensions, lone_cell, interlap, overlap
+  # scoring matrices
   rv$board -> rv$score ->
     rv$extensions[[1]] -> rv$extensions[[2]] ->
     rv$lone_cell[[1]] -> rv$lone_cell[[2]] ->
     rv$interlap[[1]] -> rv$interlap[[2]] ->
     rv$overlap[[1]] -> rv$overlap[[2]] 
   
-  
-  #----------
-  # initialize openness with centrality
-  rv$openness <- 0.01/matrix(
+  # initialize centrality
+  rv$centrality <- 1/matrix(
     abs(rep(1:(rv$h+4),(rv$w+4)) - ((rv$h+4)+1)/2) + abs(rep(1:(rv$w+4), each=(rv$h+4)) - ((rv$w+4)+1)/2),
     (rv$h+4), (rv$w+4))
-  
+
   # interatively calculate openness 
-  for (ind in rv$open_pos) { rv$openness[rv$adj_vec+ind] <- rv$openness[rv$adj_vec+ind] + 1 }
+  rv$openness <- matrix(0, rv$h+4, (rv$w+4))
+  for (ind in rv$open_pos) { rv$openness[rv$adj_ind+ind] <- rv$openness[rv$adj_ind+ind] + 1 }
   
   # # get magin indices
   # rv$margin <- which(rv$board==-Inf)

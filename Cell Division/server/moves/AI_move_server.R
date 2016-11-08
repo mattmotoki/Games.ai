@@ -47,12 +47,17 @@ observeEvent(c(rv$player, input$player_mode), {
       } else {
         if (input$difficulty=="1") {
           # easy
-
-          value <- rv$openness[moves]
-          value[which.min(moves)] <- 4*value[which.min(value)] 
+          value <- rv$overlap[[2]][moves] + 
+            0.5*rv$openness[moves] +
+            0.01*rv$centrality[moves]
         } else if (input$difficulty=="2") {
           # medium
-          value <- rv$overlap[[1]][moves] + 0.5*rv$openness[moves]
+          value <- score_calc(rv$overlap[[2]][moves],
+                              rv$interlap[[2]][moves],
+                              rv$extensions[[2]][moves],
+                              rv$lone_cell[[2]][moves]) + 
+            0.5*rv$openness[moves] +
+            0.01*rv$centrality[moves]
         } else  {
           # hard
           value <- score_calc(rv$overlap[[2]][moves],
@@ -63,7 +68,8 @@ observeEvent(c(rv$player, input$player_mode), {
                               rv$interlap[[1]][moves],
                               rv$extensions[[1]][moves],
                               rv$lone_cell[[1]][moves]) + 
-            0.5*rv$openness[moves]
+            0.5*rv$openness[moves] +
+            0.01*rv$centrality[moves]
         }        
       }
 

@@ -8,6 +8,14 @@ sidebarPanel(
     column(4,
            fluidRow(
              column(12,
+                    tags$a(href = "https://github.com/mattmotoki/Games.ai", target = "_blank",
+                           HTML('<i class="fa fa-github" aria-hidden="true"></i> More Games'),
+                           style = "color: #3BC4A1"),
+                    align = "right"            
+             )
+           ),           
+           fluidRow(
+             column(12,
                     tags$a(href = "Rmarkdown/tutorial.html", target = "_blank",
                            HTML('<i class="fa fa-play-circle" aria-hidden="true"></i> Tutorial'),
                            style = "color: #3BC4A1"),
@@ -17,7 +25,7 @@ sidebarPanel(
            fluidRow(
              column(12,
                     tags$a(href = "Rmarkdown/about.html", target = "_blank",
-                           HTML('<i class="fa fa-info" aria-hidden="true"></i> About'),
+                           HTML('<i class="fa fa-book" aria-hidden="true"></i> About'),
                            style = "color: #3BC4A1"),
                     align = "right"            
              )
@@ -48,13 +56,13 @@ sidebarPanel(
       id = ns("player_options_section"),
       column(6,
              fluidRow( radioButtons(ns("player_mode"), "Mode", list("A.I."="1", "Two Player"="2"), selected = "1") ),
-             fluidRow( radioButtons(ns("adaptive"), "Adaptive", list("On" = "1", "Off"="0"), selected = "0" ) ), 
+             fluidRow( radioButtons(ns("adaptive"), "Adaptivity", list("On" = "1", "Off"="0"), selected = "0" ) ), 
              align="left"
       ),
       column(6,
              fluidRow( uiOutput(ns("first_move_ui")) ),
-             fluidRow( radioButtons(ns("difficulty"), "Difficulty", list("Easy"="1", "Medium"="2", "Hard"="3"), selected="3") ),
-             fluidRow( sliderInput(ns("skill"), "A.I. Skill", value=75, min=1, max=100, ticks=FALSE) ), 
+             fluidRow( radioButtons(ns("difficulty"), "Difficulty", list("Easy"="1", "Medium"="2", "Hard"="3"), selected="2") ),
+             fluidRow( hidden(sliderInput(ns("skill"), "A.I. Skill", value=75, min=1, max=100, ticks=FALSE) )), 
              align="right"
       )
     )
@@ -66,8 +74,8 @@ sidebarPanel(
   hr(style="background-color: #D0D0D0; height: 1px;") ,
   fluidRow(
     column(12,
-           tags$a(href = "https://github.com/mattmotoki/Games.ai/tree/master/Cell%20Division", target = "_blank",
-                  HTML('Created by Matt Motoki <i class="fa fa-github" aria-hidden="true"></i>'),
+           tags$a(href = "https://www.linkedin.com/in/matthew-motoki-9b7884a2", target = "_blank",
+                  HTML('Created by Matt Motok<i class="fa fa-info-circle" aria-hidden="true"></i>'),
                   style = "color: #3BA3C4"),
            align = "center"            
     )
