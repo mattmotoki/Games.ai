@@ -28,7 +28,7 @@ play_game <- function(input, output, session, type) {
   for (f in dir(file.path("server", "moves"), full.names = TRUE)) { source(f, local = TRUE) }
   
   # Render Dynamic UI (server logic for all uiOutput): 
-  #  info bar, 
+  #  info bar, board size controls, first move radio buttons
   for (f in dir(file.path("server", "render_dynamic_UI"), full.names = TRUE)) { source(f, local = TRUE) }
   
   # Game Options:

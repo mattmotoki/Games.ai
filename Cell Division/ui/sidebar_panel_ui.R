@@ -56,13 +56,13 @@ sidebarPanel(
       id = ns("player_options_section"),
       column(6,
              fluidRow( radioButtons(ns("player_mode"), "Mode", list("A.I."="1", "Two Player"="2"), selected = "1") ),
-             fluidRow( radioButtons(ns("adaptive"), "Adaptivity", list("On" = "1", "Off"="0"), selected = "0" ) ), 
+             fluidRow( radioButtons(ns("adaptive"), "Adaptivity", list("On" = "1", "Off"="0"), selected = "1" ) ), 
              align="left"
       ),
       column(6,
              fluidRow( uiOutput(ns("first_move_ui")) ),
-             fluidRow( radioButtons(ns("difficulty"), "Difficulty", list("Easy"="1", "Medium"="2", "Hard"="3"), selected="2") ),
-             fluidRow( hidden(sliderInput(ns("skill"), "A.I. Skill", value=75, min=1, max=100, ticks=FALSE) )), 
+             fluidRow( hidden(radioButtons(ns("difficulty"), "Difficulty", list("Easy"="1", "Medium"="2", "Hard"="3"), selected="2") )),
+             fluidRow( sliderInput(ns("skill"), "A.I. Skill", value=50, min=1, max=100, ticks=FALSE) ), 
              align="right"
       )
     )

@@ -1,7 +1,7 @@
 # add AI moves to the board
-observeEvent(c(rv$player, input$player_mode), {
-
-
+observeEvent(c(rv$player, input$player_mode, input$play_again), {
+  
+  
   # if it's A.I.'s turn
   if (input$player_mode=="1" && rv$player=="2" ) {
     # initialize things on first click    
@@ -29,8 +29,10 @@ observeEvent(c(rv$player, input$player_mode), {
       
       # calcualte the difficulty of AI (value of a state)
       if (input$adaptive=="1") {
-        # get value based on hard opponent's heuristic
-        value <- score_calc(rv$overlap[[2]][moves],
+        # get the easy and hard opponent's heuristic
+        easy_value <- rv$overlap[[2]][moves] + 
+          0.01*rv$centrality[moves]
+        hard_value <- score_calc(rv$overlap[[2]][moves],
                             rv$interlap[[2]][moves],
                             rv$extensions[[2]][moves],
                             rv$lone_cell[[2]][moves]) + 
@@ -38,17 +40,19 @@ observeEvent(c(rv$player, input$player_mode), {
                             rv$interlap[[1]][moves],
                             rv$extensions[[1]][moves],
                             rv$lone_cell[[1]][moves]) + 
-          0.5*rv$openness[moves]
+          0.5*rv$openness[moves] +
+          0.01*rv$centrality[moves]
         
-        # # within game adaptivity
-        # play_move <- max(ceiling(0.01*(input$skill + rv$score_diff[1])*length(value)), 1)
-        # value[order(value)[play_move]] <- max(value) + 1
+        
+        # apply within game adaptivity
+        score_diff <- diff(rv$score_traj[rv$timestep + 1:0]) # your score - AI score
+        alpha <- 0.01*min(max(input$skill + score_diff, 1), 100) # weighting
+        value <- alpha*hard_value/max(hard_value) + (1-alpha)*easy_value/max(easy_value)
         
       } else {
         if (input$difficulty=="1") {
           # easy
-          value <- rv$overlap[[2]][moves] + 
-            0.5*rv$openness[moves] +
+          value <- rv$overlap[[2]][moves] 
             0.01*rv$centrality[moves]
         } else if (input$difficulty=="2") {
           # medium
@@ -72,9 +76,8 @@ observeEvent(c(rv$player, input$player_mode), {
             0.01*rv$centrality[moves]
         }        
       }
-
+      # get most valuable move
       ind0 <- moves[which.max(value)[1]]
-     
     }
     
     # implement move
