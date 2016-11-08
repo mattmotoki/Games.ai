@@ -16,7 +16,7 @@ sidebarPanel(
            ),           
            fluidRow(
              column(12,
-                    tags$a(href = "Rmarkdown/tutorial.html", target = "_blank",
+                    tags$a(href = "Rmarkdown/tutorial_final.html", target = "_blank",
                            HTML('<i class="fa fa-play-circle" aria-hidden="true"></i> Tutorial'),
                            style = "color: #3BC4A1"),
                     align = "right"            
@@ -74,8 +74,10 @@ sidebarPanel(
   hr(style="background-color: #D0D0D0; height: 1px;") ,
   fluidRow(
     column(12,
-           tags$a(href = "https://www.linkedin.com/in/matthew-motoki-9b7884a2", target = "_blank",
+           
+           tags$a(href = "https://github.com/boto/boto#user-content-finding-out-more-about-boto",
                   HTML('Created by Matt Motok<i class="fa fa-info-circle" aria-hidden="true"></i>'),
+                  target = "_blank",
                   style = "color: #3BA3C4"),
            align = "center"            
     )

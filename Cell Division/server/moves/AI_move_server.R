@@ -60,7 +60,6 @@ observeEvent(c(rv$player, input$player_mode, input$play_again), {
                               rv$interlap[[2]][moves],
                               rv$extensions[[2]][moves],
                               rv$lone_cell[[2]][moves]) + 
-            0.5*rv$openness[moves] +
             0.01*rv$centrality[moves]
         } else  {
           # hard
@@ -72,7 +71,7 @@ observeEvent(c(rv$player, input$player_mode, input$play_again), {
                               rv$interlap[[1]][moves],
                               rv$extensions[[1]][moves],
                               rv$lone_cell[[1]][moves]) + 
-            0.5*rv$openness[moves] +
+            0.1*rv$openness[moves] +
             0.01*rv$centrality[moves]
         }        
       }

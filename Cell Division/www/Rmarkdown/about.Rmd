@@ -1,7 +1,6 @@
 ---
 title: "About Cell Division"
-author: Matt Motoki
-date: "`r format(Sys.time(), '%d %B, %Y')`"
+author: Created by Matt Motoki
 output: 
   html_document:
     toc: TRUE
@@ -22,125 +21,141 @@ readable
 
 
 # Introduction 
-Cell Division is a strategy-based board game with a biology/chemisty inspired theme.  Select any *open* position to insert your cell.  Cells divide into more cells whenever a connection of the same color is made (horizontal, vertical, and diagonal connections are allowed). Your score is equal to the total number of cells with your color. The game ends once the board is full.  The player with the highest score at the end of the game score wins!
+Cell Division is a strategy-based board game with a biology inspired theme.  This game is intended for those who like strategy/puzzles and dislike luck/probability^[One of the motivations for creating this game was out of frustration with Candy Crush which after awhile becomes a game of luck rather than skill.].  All A.I. opponents implement a deterministic strategy that is greedy with respect to some heuristic.  Games against a fixed difficulty A.I. opponent are completely reproducible and can be thought of as a type of puzzle; i.e., you can design a strategy that specifically exploits the A.I. opponent's weaknesses.  
+
+# Implementation
+Cell Division was written entirely^[Basic HTML and CSS were also used.] in the [R programming](https://cran.r-project.org/) language; in fact, even this about page was written using R.  The user interface and the server logic was created using RStudio's [Shiny](http://shiny.rstudio.com/) web app framework.  The main display uses base R graphics --- the display is essentially just a plot of squares and lines in the x-y plane --- and the visual effects come from the [shinyjs](https://github.com/daattali/shinyjs) package.
+
+The code for the game is available [here](https://github.com/mattmotoki/Games.ai/tree/master/Cell%20Division).
 
 
-
-### Control Panel
-
-To undo the last move played, click on the **undo** button. When playing against the A.I. opponent, this undos both your last move and your opponent's last move (if any).
-
-To reset the entire game, click on the **reset** button. 
-
-At the end of a game, click on the **congratualtions message** to restart the game with the **First Move** parameter switched. 
-
-You can toggle the display of cell connections by clicking the **show connections** and **hide connections** buttons. 
-
-If **move help** is turned on, then when you hover over an *open* cell, the increase in score by playing that cell will be displayed in the lower right hand corner of the screen.
-
-
-## Notes
-The speed of game play on the web is limited to your bandwidth.  Downloading the code from GitHub and running the game locally results in much snappier graphics.  For the quickest graphics response times, download and run the modified code which adds layers of graphics when they are needed rather than replotting the enitre game from scratch (as far as I know, it is not possible to implement this layer by layer plotting on RShiny server). 
-
-
-# Board Layouts
-There are three board layouts to choose from: Petri dish, beaker, and Elenmeyer flask.  Moves played in the beaker and Elenmeyer flask layout are subject to *gravity*; that is, cells fall to the lowest *open* row in a column.  
-
-Boards with an odd number of positions favor the player that moves first.  Thus, all the following boards have an even number of positions.  
-
-
-## Petri Dish
-<img src="logo.png" />
-
-For a given radius, the shape of the grid is chosen maximum the number of cells that can fit within the Petri dish.   
-
-You can choose the size of the board by selecting the **Number of Cells** parameter from the drop down menu.  You can also decrease/increase the number of cells on the board by clicking on the **decrease** and **increase** buttons respectively.
-
-
-
-
-## Beaker
-You can choose the size of the board by selecting the **Height** and **Width** parameters in the input boxes.  
-
-
-
-## Erlenmeyer Flask
-You can choose the size of the board by selecting the **Neck-Height** and **Base-Width** parameters in the input boxes.  The total height of the flask is **Neck-Height** plus half the **Base-Width**. 
-
-
-
-# Optional Moves
-Optional moves include NaOH/HCl and isopropyl alcohol.  
-
-## Strong Base / Acid
-When NaOH/HCl is turned on, Player 1 has access to the strong base, sodium hydroxide (NaOH), which destroys it's opponents adjacent cells; on the other hand, Player 1's opponent has access to the strong acid, hydrochloric acid (HCl), which destroys player 1's adjacent cells.  
-
-## Isopropyl Alcohol
-When isopropyl alcohol (which is <a href="https://en.wikipedia.org/wiki/Amphoterism" target="_blank">amphiprotic</a>) is turned on, both players can destroy their own as well as their opponent's adjacent cells.  
 
 
 
 # A.I. Opponent
-This game is intended for those who like strategy/puzzles and dislike luck/probability.  All A.I. opponents implement a deterministic strategy that is greedy with respect to some heuristic; the quality of the heuristic determines the difficulty of the opponent.  Hence, games against a fixed difficulty A.I. opponent are completely reproducible and can be thought of as a type of puzzle; i.e., you can design a strategy that specifically exploits the A.I. opponent's weaknesses.  
+First, it should be noted that every single one of the opponent's strategies are hard-coded.  Therefore, it is technically not correct to call the opponent "A.I.".  However, creating making the opponent consitent with typical definitions of A.I. would not be too difficult and it's implementation is discussed in a following section. 
 
 
-## Easy / Medium / Hard
+## Thinking like the "A.I." Opponent
+In order to beat your opponent, you should think like your opponent.  
+
+All oppponent's follow a greedy with respect to some heuristic approximation of the value of a move.  The quality of the heuristic determines the difficulty of the opponent.  Since the objective is to maximize your score, it makes sense to approximate the long term benefit of a move with its immediate increase in score.  It turn's out that the increase in score can be decomposed in the a function of the following four variables: 
+
+* $\text{overlap}(\text{move})$ is the number of cells adjacent to a move,
+* $\text{interlap}(\text{move})$ is the number of times the move is sandwitched by it's cell and it's opposite
+* $\text{extensions}(\text{move})$ is the number of existing connections that a move extends
+* $\text{unconnected}(\text{move})$ is the number of unconnected cells that a move connects,
+
+and the formula is 
+
+$$\begin{split}
+\Delta \text{score}_p(\text{move}) 
+  &= \mathbb{I} \{\text{overlap}(\text{move})>1\} - \text{unconnected}(\text{move}) \\
+  &\quad + 2\cdot \big[\text{overlap}(\text{move}) - \text{interlap}(\text{move})\big] \\
+  &\quad + 2\cdot\big[  \text{overlap}(\text{move})  - \text{extensions}(\text{move}) \big],
+\end{split}$$
+where $p$ denotes the player playing the move.  By convention, we define the first player ($p=1$) to be you and the second player ($p=2$) to be the A.I.  
+
+
+One benefit of this decomposition is that each of the variables can themselves be updated in an online fashion.  Thus, we can keep track of the increase in score for every move efficiently. 
+
+Additional variables that have intuitive value are:
+
+* $\text{openness}(\text{move})$ is move number of open positions adjacent to a move,
+* $\text{centrality}(\text{move})$ measures how close a move is to the center of the board.
+
+Every opponent uses some (ad-hoc) combination of the above variables. The weights that are used in the combinations are completely arbitrary and can most likely be improved. 
 
 ### Easy 
-The easy opponent uses the openness of a move to apporoximate its value. 
+The easy opponent obtains a move by maximizing
+$$
+\text{easy}(\text{move}) = \text{overlap}(\text{move}) + 0.01 \cdot \text{centrality}(\text{move}).
+$$
+The overlap is a relatively good approximation for the increase in score of a move; it is only when we extend existing connections or place a move in between two cells do we over count.  The centrality term is intended to be negligible unless a tie occurs, in which case the opponent will prefer moves towards the center of the board.  
 
 ### Medium
+The medium opponent obtains a move by maximizing
+$$
+\text{medium}(\text{move}) = \Delta \text{score}_2(\text{move}) + 0.5\cdot \text{openness}(\text{move}) + 0.01 \cdot \text{centrality}(\text{move}).
+$$
+Here the opponent tries to maximize its increase in score directly.  Again, with the centrality term used to break ties.
+
 
 ### Hard
+The hard opponent obtains a move by maximizing
+$$\begin{split}
+\text{hard}(\text{move}) 
+  &= \Delta \text{score}_2(\text{move}) 
+   \quad + 0.75\cdot \Delta \text{score}_1(\text{move}) \\
+  &\quad + 0.1\cdot \text{openness}(\text{move}) 
+   \quad + 0.01 \cdot \text{centrality}(\text{move}).
+\end{split}$$
+The previous two opponents looked only at their own values.  The hard opponent takes into account how much a move will hurt your chances of increasing your own score.  In this way, it is a bit more adversarial than the previous two opponents.  The openness of a move is also given some weight and if all else is equal, the hard opponent will choose a move closest to the center of the board.
 
-## Adaptive
+
+### Adaptive
 The adaptive opponent has a skill level which determines the overall strategy in a game.  
 
 
-The adaptive opponent adapts to your play in two ways:
+The adaptive opponent adapts to your play in two ways: 
 
-1. Your opponent changes its play during a game depending on the current difference between your and its score.  If you are beating your opponent, then your opponent will play "smarter"; if you are losing, then your opponent will play "dumber".  Moreover, the quality of your opponent's move is proportional to the absolute score diffrence.  This means that when you are leading your opponent by a large margin, your opponent will be playing near optimal moves (with respect to its heurstic).  On the other hand, if you are only slightly leading your opponent, then your opponent will play moves that are good but further from optimal.
+1. It adapts to your play within a game.
+2. It adapts its entire strategy after a game.
 
-2. At the end of the game, your opponent's skill level is updated according to the following formula:
+
+Formally, the adaptive player uses a blend (convex combination) of the normalized easy player's heuristic and the normalized hard player's heuristic.  
 $$
-skill \leftarrow skill + \frac{ \text{your score} - \text{opponent's score}  }{1 + \mathbb{I} \{ \text{your score} < \text{opponent's score} \}  }.
+\text{adaptive}(\text{move}) 
+= \text{skill}' \cdot \frac{\text{hard}(\text{move})}{\max\limits_{m}\{ \text{hard}(m) \} } 
++ (1 - \text{skill}') \cdot  \frac{\text{easy} \text{move})}{\max\limits_{m}\{ \text{easy}(m) \} },
+$$
+
+where $\text{skill}'$ is the modified skill parameter
+
+$$
+\text{skill}' = \text{skill} + ( \text{your score} - \text{A.I.'s score} ).
+$$
+
+Notice that if you are winning, then the effective skill of your opponent goes up.  Moreover, if you are winning by a lot then the effective skill will go up by a lot.  
+
+At the end of the game, your opponent's skill level is updated according to the following formula:
+$$
+\text{skill} \leftarrow \text{skill} + \frac{ \text{your score} - \text{A.I.'s score}  }{1 + \mathbb{I} \{ \text{your score} < \text{A.I.'s score} \}  }.
 $$
 Hence, if you beat your opponent, then its skill goes up by the score difference; if you lose to your opponent, then its skill goes down by one half the absolute score difference.  If the game is a draw, then the skill level stays the same.
 
 
+
+## Improving Opponent Design
 
 
 
 
 
 # Future Add-Ons
+There are many variations on this game that can be played.  What follows is an unordered list of possible improvements/variants of the game.
+
+* **Attack Moves**: Give players access to the strong acid HCl and the strong base NaOH.  Each acid/base will destroy the other player's cells while leaving their cells intact.  Similarly, isopropyl alcohol can be played to destroy any cell.  
+    + **Sythesis Process**: Let NaOH/HCl and isopropyl alcohol regenerate over time. 
+    + **cell Walls**: Let players enforce their cells with cell walls (or membranes) to guard against HCl/NaOH/Alcochol attacks. 
 
 
-## Opponent Design
-Currently, the "A.I." opponent follows a hard-coded strategy which is greedy with respect to some heuristic.  Technically, this is not A.I. 
+* **Alternative Objectives**: Instead of placing cells on the board, we can start with a given number of each player's cells in a predefined configuration.  You are allowed to move a cell one step in any direction or swap your cell with an opponent's adjacent cell.  Cells continue to divide based on thier connections.  The end of a game occurs after a fixed number of moves. The winner is the player with the most cells at the end of the game.  
+    + **Cell Swap**: Let player's swap their cell's with their oppoent's (enforce [no backsies](http://www.urbandictionary.com/define.php?term=no%20backsies)); 
+    + **Cell Jumps**: Let players jump their opponent's cells to convert them to one of their own (as in checkers).
+
+* **Triangular and Hexagonal Grids**: Storing a board defined over these grids can be done by modifying what it means to be adjacent to another cell.  Thus, boards can be stored and analyzed in a similar way to the rectangular grid.  The heuristics that the A.I. opponents use will probably also generalize well to these types of grids. 
 
 
-
-## Game Mechanics
-* **Alternative Objective**: Instead of placing cells on the board, we can start with a given number of each player's cells in a predefined configuration.  You are allowed to move a cell one step in any direction or swap your cell with an opponent's adjacent cell.  Cells continue to divide based on thier connections.  The end of a game occurs after a fixed number of moves. The winner is the player with the most cells at the end of the game.  
+* **Modified Scoring**: One of the problems with this game is that the scoring system --- although well-defined --- is not very intuitive.  A more natural scoring system may be to count the number of connections rather than the number of divisions.
 
 
 * **Cell Capture**: This is a <a href="https://en.wikipedia.org/wiki/Go_(game)" target="_blank">Go</a>-like feature which allows you to convert your opponent's cells into your own.  This is achieved by completely surrounding your opponent's cells or sandwiching them between the edge of a board and your cells.  
 
 
-* **Cell Walls**: An additional move that can guard your cells against NaOH/HCl and isopropyl alcohol.
+* **Partial Cells**: Allow and score partial cells. Triangular cell's might not be too hard to add in. 
 
 
 * **Custom Board Builder**: Create a GUI that allows the user to click on a grid to define the feasible positions of thier custom board.  Boards can naturally be stored as a binary matrix, thus it would be easy to let the user save and upload thier board.  
 
-
-* **Modified Scoring**: One of the problems with this game is that the scoring system --- although well-defined --- is not very intuitive.  A more natural scoring system may be to count the number of connections rather than the number of divisions.
-
-* **Partial Cells**: Allow and score partial cells. *This will probably be a pain in the ass to implement.*  
-
-
-* **Sythesis Process**: Let NaOH/HCl and isopropyl alcohol regenerate over time. 
-
-
-* **Triangular and Hexagonal Grids**: Storing a board defined over these grids can be done by modifying the sub2ind function.  Thus, the heuristics that the A.I. opponent uses generalize well to these types of grids. 
 

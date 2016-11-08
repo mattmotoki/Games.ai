@@ -9,7 +9,7 @@
 <meta name="generator" content="pandoc" />
 
 
-<meta name="author" content="Matt Motoki" />
+<meta name="author" content="Created by Matt Motoki" />
 
 
 <title>About Cell Division</title>
@@ -219,8 +219,7 @@ div.tocify {
 
 
 <h1 class="title toc-ignore">About Cell Division</h1>
-<h4 class="author"><em>Matt Motoki</em></h4>
-<h4 class="date"><em>03 November, 2016</em></h4>
+<h4 class="author"><em>Created by Matt Motoki</em></h4>
 
 </div>
 
@@ -234,101 +233,117 @@ readable
 <!-- <img src="logo.png" style="position:absolute;top:0px;right:10px;" /> -->
 <div id="introduction" class="section level1">
 <h1>Introduction</h1>
-<p>Cell Division is a strategy-based board game with a biology/chemisty inspired theme. Select any <em>open</em> position to insert your cell. Cells divide into more cells whenever a connection of the same color is made (horizontal, vertical, and diagonal connections are allowed). Your score is equal to the total number of cells with your color. The game ends once the board is full. The player with the highest score at the end of the game score wins!</p>
-<div id="tutorial" class="section level2">
-<h2>Tutorial</h2>
-<p>Players take turns placing their cells in an <em>open</em> position. You can define who moves first by specifying the <strong>First Move</strong> parameter.</p>
-<div id="control-panel" class="section level3">
-<h3>Control Panel</h3>
-<p>To undo the last move played, click on the <strong>undo</strong> button. When playing against the A.I. opponent, this undos both your last move and your opponent’s last move (if any).</p>
-<p>To reset the entire game, click on the <strong>reset</strong> button.</p>
-<p>At the end of a game, click on the <strong>congratualtions message</strong> to restart the game with the <strong>First Move</strong> parameter switched.</p>
-<p>You can toggle the display of cell connections by clicking the <strong>show connections</strong> and <strong>hide connections</strong> buttons.</p>
-<p>If <strong>move help</strong> is turned on, then when you hover over an <em>open</em> cell, the increase in score by playing that cell will be displayed in the lower right hand corner of the screen.</p>
+<p>Cell Division is a strategy-based board game with a biology inspired theme. This game is intended for those who like strategy/puzzles and dislike luck/probability<a href="#fn1" class="footnoteRef" id="fnref1"><sup>1</sup></a>. All A.I. opponents implement a deterministic strategy that is greedy with respect to some heuristic. Games against a fixed difficulty A.I. opponent are completely reproducible and can be thought of as a type of puzzle; i.e., you can design a strategy that specifically exploits the A.I. opponent’s weaknesses.</p>
 </div>
-</div>
-<div id="notes" class="section level2">
-<h2>Notes</h2>
-<p>The speed of game play on the web is limited to your bandwidth. Downloading the code from GitHub and running the game locally results in much snappier graphics. For the quickest graphics response times, download and run the modified code which adds layers of graphics when they are needed rather than replotting the enitre game from scratch (as far as I know, it is not possible to implement this layer by layer plotting on RShiny server).</p>
-</div>
-</div>
-<div id="board-layouts" class="section level1">
-<h1>Board Layouts</h1>
-<p>There are three board layouts to choose from: Petri dish, beaker, and Elenmeyer flask. Moves played in the beaker and Elenmeyer flask layout are subject to <em>gravity</em>; that is, cells fall to the lowest <em>open</em> row in a column.</p>
-<p>Boards with an odd number of positions favor the player that moves first. Thus, all the following boards have an even number of positions.</p>
-<div id="petri-dish" class="section level2">
-<h2>Petri Dish</h2>
-<p><img src="data:image/png;base64,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" /></p>
-<p>You can choose the size of the board by selecting the <strong>Number of Cells</strong> parameter from the drop down menu. You can also decrease/increase the number of cells on the board by clicking on the <strong>decrease</strong> and <strong>increase</strong> buttons respectively.</p>
-</div>
-<div id="beaker" class="section level2">
-<h2>Beaker</h2>
-<p>You can choose the size of the board by selecting the <strong>Height</strong> and <strong>Width</strong> parameters in the input boxes.</p>
-</div>
-<div id="erlenmeyer-flask" class="section level2">
-<h2>Erlenmeyer Flask</h2>
-<p>You can choose the size of the board by selecting the <strong>Neck-Height</strong> and <strong>Base-Width</strong> parameters in the input boxes. The total height of the flask is <strong>Neck-Height</strong> plus half the <strong>Base-Width</strong>.</p>
-</div>
-</div>
-<div id="optional-moves" class="section level1">
-<h1>Optional Moves</h1>
-<p>Optional moves include NaOH/HCl and isopropyl alcohol.</p>
-<div id="strong-base-acid" class="section level2">
-<h2>Strong Base / Acid</h2>
-<p>When NaOH/HCl is turned on, Player 1 has access to the strong base, sodium hydroxide (NaOH), which destroys it’s opponents adjacent cells; on the other hand, Player 1’s opponent has access to the strong acid, hydrochloric acid (HCl), which destroys player 1’s adjacent cells.</p>
-</div>
-<div id="isopropyl-alcohol" class="section level2">
-<h2>Isopropyl Alcohol</h2>
-<p>When isopropyl alcohol (which is <a href="https://en.wikipedia.org/wiki/Amphoterism" target="_blank">amphiprotic</a>) is turned on, both players can destroy their own as well as their opponent’s adjacent cells.</p>
-</div>
+<div id="implementation" class="section level1">
+<h1>Implementation</h1>
+<p>Cell Division was written entirely<a href="#fn2" class="footnoteRef" id="fnref2"><sup>2</sup></a> in the <a href="https://cran.r-project.org/">R programming</a> language; in fact, even this about page was written using R. The user interface and the server logic was created using RStudio’s <a href="http://shiny.rstudio.com/">Shiny</a> web app framework. The main display uses base R graphics — the display is essentially just a plot of squares and lines in the x-y plane — and the visual effects come from the <a href="https://github.com/daattali/shinyjs">shinyjs</a> package.</p>
+<p>The code for the game is available <a href="https://github.com/mattmotoki/Games.ai/tree/master/Cell%20Division">here</a>.</p>
 </div>
 <div id="a.i.-opponent" class="section level1">
 <h1>A.I. Opponent</h1>
-<p>This game is intended for those who like strategy/puzzles and dislike luck/probability. All A.I. opponents implement a deterministic strategy that is greedy with respect to some heuristic; the quality of the heuristic determines the difficulty of the opponent. Hence, games against a fixed difficulty A.I. opponent are completely reproducible and can be thought of as a type of puzzle; i.e., you can design a strategy that specifically exploits the A.I. opponent’s weaknesses.</p>
-<div id="easy-medium-hard" class="section level2">
-<h2>Easy / Medium / Hard</h2>
+<p>First, it should be noted that every single one of the opponent’s strategies are hard-coded. Therefore, it is technically not correct to call the opponent “A.I.”. However, creating making the opponent consitent with typical definitions of A.I. would not be too difficult and it’s implementation is discussed in a following section.</p>
+<div id="thinking-like-the-a.i.-opponent" class="section level2">
+<h2>Thinking like the “A.I.” Opponent</h2>
+<p>In order to beat your opponent, you should think like your opponent.</p>
+<p>All oppponent’s follow a greedy with respect to some heuristic approximation of the value of a move. The quality of the heuristic determines the difficulty of the opponent. Since the objective is to maximize your score, it makes sense to approximate the long term benefit of a move with its immediate increase in score. It turn’s out that the increase in score can be decomposed in the a function of the following four variables:</p>
+<ul>
+<li><span class="math inline">\(\text{overlap}(\text{move})\)</span> is the number of cells adjacent to a move,</li>
+<li><span class="math inline">\(\text{interlap}(\text{move})\)</span> is the number of times the move is sandwitched by it’s cell and it’s opposite</li>
+<li><span class="math inline">\(\text{extensions}(\text{move})\)</span> is the number of existing connections that a move extends</li>
+<li><span class="math inline">\(\text{unconnected}(\text{move})\)</span> is the number of unconnected cells that a move connects,</li>
+</ul>
+<p>and the formula is</p>
+<p><span class="math display">\[\begin{split}
+\Delta \text{score}_p(\text{move}) 
+  &amp;= \mathbb{I} \{\text{overlap}(\text{move})&gt;1\} - \text{unconnected}(\text{move}) \\
+  &amp;\quad + 2\cdot \big[\text{overlap}(\text{move}) - \text{interlap}(\text{move})\big] \\
+  &amp;\quad + 2\cdot\big[  \text{overlap}(\text{move})  - \text{extensions}(\text{move}) \big],
+\end{split}\]</span> where <span class="math inline">\(p\)</span> denotes the player playing the move. By convention, we define the first player (<span class="math inline">\(p=1\)</span>) to be you and the second player (<span class="math inline">\(p=2\)</span>) to be the A.I.</p>
+<p>One benefit of this decomposition is that each of the variables can themselves be updated in an online fashion. Thus, we can keep track of the increase in score for every move efficiently.</p>
+<p>Additional variables that have intuitive value are:</p>
+<ul>
+<li><span class="math inline">\(\text{openness}(\text{move})\)</span> is move number of open positions adjacent to a move,</li>
+<li><span class="math inline">\(\text{centrality}(\text{move})\)</span> measures how close a move is to the center of the board.</li>
+</ul>
+<p>Every opponent uses some (ad-hoc) combination of the above variables. The weights that are used in the combinations are completely arbitrary and can most likely be improved.</p>
 <div id="easy" class="section level3">
 <h3>Easy</h3>
-<p>The easy opponent uses the openness of a move to apporoximate its value.</p>
+<p>The easy opponent obtains a move by maximizing <span class="math display">\[
+\text{easy}(\text{move}) = \text{overlap}(\text{move}) + 0.01 \cdot \text{centrality}(\text{move}).
+\]</span> The overlap is a relatively good approximation for the increase in score of a move; it is only when we extend existing connections or place a move in between two cells do we over count. The centrality term is intended to be negligible unless a tie occurs, in which case the opponent will prefer moves towards the center of the board.</p>
 </div>
 <div id="medium" class="section level3">
 <h3>Medium</h3>
+<p>The medium opponent obtains a move by maximizing <span class="math display">\[
+\text{medium}(\text{move}) = \Delta \text{score}_2(\text{move}) + 0.5\cdot \text{openness}(\text{move}) + 0.01 \cdot \text{centrality}(\text{move}).
+\]</span> Here the opponent tries to maximize its increase in score directly. Again, with the centrality term used to break ties.</p>
 </div>
 <div id="hard" class="section level3">
 <h3>Hard</h3>
+<p>The hard opponent obtains a move by maximizing <span class="math display">\[\begin{split}
+\text{hard}(\text{move}) 
+  &amp;= \Delta \text{score}_2(\text{move}) 
+   \quad + 0.75\cdot \Delta \text{score}_1(\text{move}) \\
+  &amp;\quad + 0.1\cdot \text{openness}(\text{move}) 
+   \quad + 0.01 \cdot \text{centrality}(\text{move}).
+\end{split}\]</span> The previous two opponents looked only at their own values. The hard opponent takes into account how much a move will hurt your chances of increasing your own score. In this way, it is a bit more adversarial than the previous two opponents. The openness of a move is also given some weight and if all else is equal, the hard opponent will choose a move closest to the center of the board.</p>
 </div>
-</div>
-<div id="adaptive" class="section level2">
-<h2>Adaptive</h2>
+<div id="adaptive" class="section level3">
+<h3>Adaptive</h3>
 <p>The adaptive opponent has a skill level which determines the overall strategy in a game.</p>
 <p>The adaptive opponent adapts to your play in two ways:</p>
 <ol style="list-style-type: decimal">
-<li><p>Your opponent changes its play during a game depending on the current difference between your and its score. If you are beating your opponent, then your opponent will play “smarter”; if you are losing, then your opponent will play “dumber”. Moreover, the quality of your opponent’s move is proportional to the absolute score diffrence. This means that when you are leading your opponent by a large margin, your opponent will be playing near optimal moves (with respect to its heurstic). On the other hand, if you are only slightly leading your opponent, then your opponent will play moves that are good but further from optimal.</p></li>
-<li><p>At the end of the game, your opponent’s skill level is updated according to the following formula: <span class="math display">\[
-skill \leftarrow skill + \frac{ \text{your score} - \text{opponent's score}  }{1 + \mathbb{I} \{ \text{your score} &lt; \text{opponent's score} \}  }.
-\]</span> Hence, if you beat your opponent, then its skill goes up by the score difference; if you lose to your opponent, then its skill goes down by one half the absolute score difference. If the game is a draw, then the skill level stays the same.</p></li>
+<li>It adapts to your play within a game.</li>
+<li>It adapts its entire strategy after a game.</li>
 </ol>
+<p>Formally, the adaptive player uses a blend (convex combination) of the normalized easy player’s heuristic and the normalized hard player’s heuristic.<br />
+<span class="math display">\[
+\text{adaptive}(\text{move}) 
+= \text{skill}' \cdot \frac{\text{hard}(\text{move})}{\max\limits_{m}\{ \text{hard}(m) \} } 
++ (1 - \text{skill}') \cdot  \frac{\text{easy} \text{move})}{\max\limits_{m}\{ \text{easy}(m) \} },
+\]</span></p>
+<p>where <span class="math inline">\(\text{skill}'\)</span> is the modified skill parameter</p>
+<p><span class="math display">\[
+\text{skill}' = \text{skill} + ( \text{your score} - \text{A.I.'s score} ).
+\]</span></p>
+<p>Notice that if you are winning, then the effective skill of your opponent goes up. Moreover, if you are winning by a lot then the effective skill will go up by a lot.</p>
+<p>At the end of the game, your opponent’s skill level is updated according to the following formula: <span class="math display">\[
+\text{skill} \leftarrow \text{skill} + \frac{ \text{your score} - \text{A.I.'s score}  }{1 + \mathbb{I} \{ \text{your score} &lt; \text{A.I.'s score} \}  }.
+\]</span> Hence, if you beat your opponent, then its skill goes up by the score difference; if you lose to your opponent, then its skill goes down by one half the absolute score difference. If the game is a draw, then the skill level stays the same.</p>
+</div>
+</div>
+<div id="improving-opponent-design" class="section level2">
+<h2>Improving Opponent Design</h2>
 </div>
 </div>
 <div id="future-add-ons" class="section level1">
 <h1>Future Add-Ons</h1>
-<div id="opponent-design" class="section level2">
-<h2>Opponent Design</h2>
-<p>Currently, the “A.I.” opponent follows a hard-coded strategy which is greedy with respect to some heuristic. Technically, this is not A.I.</p>
-</div>
-<div id="game-mechanics" class="section level2">
-<h2>Game Mechanics</h2>
+<p>There are many variations on this game that can be played. What follows is an unordered list of possible improvements/variants of the game.</p>
 <ul>
-<li><p><strong>Alternative Objective</strong>: Instead of placing cells on the board, we can start with a given number of each player’s cells in a predefined configuration. You are allowed to move a cell one step in any direction or swap your cell with an opponent’s adjacent cell. Cells continue to divide based on thier connections. The end of a game occurs after a fixed number of moves. The winner is the player with the most cells at the end of the game.</p></li>
-<li><p><strong>Cell Capture</strong>: This is a <a href="https://en.wikipedia.org/wiki/Go_(game)" target="_blank">Go</a>-like feature which allows you to convert your opponent’s cells into your own. This is achieved by completely surrounding your opponent’s cells or sandwiching them between the edge of a board and your cells.</p></li>
-<li><p><strong>Cell Walls</strong>: An additional move that can guard your cells against NaOH/HCl and isopropyl alcohol.</p></li>
-<li><p><strong>Custom Board Builder</strong>: Create a GUI that allows the user to click on a grid to define the feasible positions of thier custom board. Boards can naturally be stored as a binary matrix, thus it would be easy to let the user save and upload thier board.</p></li>
+<li><strong>Attack Moves</strong>: Give players access to the strong acid HCl and the strong base NaOH. Each acid/base will destroy the other player’s cells while leaving their cells intact. Similarly, isopropyl alcohol can be played to destroy any cell.
+<ul>
+<li><strong>Sythesis Process</strong>: Let NaOH/HCl and isopropyl alcohol regenerate over time.</li>
+<li><strong>cell Walls</strong>: Let players enforce their cells with cell walls (or membranes) to guard against HCl/NaOH/Alcochol attacks.</li>
+</ul></li>
+<li><strong>Alternative Objectives</strong>: Instead of placing cells on the board, we can start with a given number of each player’s cells in a predefined configuration. You are allowed to move a cell one step in any direction or swap your cell with an opponent’s adjacent cell. Cells continue to divide based on thier connections. The end of a game occurs after a fixed number of moves. The winner is the player with the most cells at the end of the game.
+<ul>
+<li><strong>Cell Swap</strong>: Let player’s swap their cell’s with their oppoent’s (enforce <a href="http://www.urbandictionary.com/define.php?term=no%20backsies">no backsies</a>);</li>
+<li><strong>Cell Jumps</strong>: Let players jump their opponent’s cells to convert them to one of their own (as in checkers).</li>
+</ul></li>
+<li><p><strong>Triangular and Hexagonal Grids</strong>: Storing a board defined over these grids can be done by modifying what it means to be adjacent to another cell. Thus, boards can be stored and analyzed in a similar way to the rectangular grid. The heuristics that the A.I. opponents use will probably also generalize well to these types of grids.</p></li>
 <li><p><strong>Modified Scoring</strong>: One of the problems with this game is that the scoring system — although well-defined — is not very intuitive. A more natural scoring system may be to count the number of connections rather than the number of divisions.</p></li>
-<li><p><strong>Partial Cells</strong>: Allow and score partial cells. <em>This will probably be a pain in the ass to implement.</em></p></li>
-<li><p><strong>Sythesis Process</strong>: Let NaOH/HCl and isopropyl alcohol regenerate over time.</p></li>
-<li><p><strong>Triangular and Hexagonal Grids</strong>: Storing a board defined over these grids can be done by modifying the sub2ind function. Thus, the heuristics that the A.I. opponent uses generalize well to these types of grids.</p></li>
+<li><p><strong>Cell Capture</strong>: This is a <a href="https://en.wikipedia.org/wiki/Go_(game)" target="_blank">Go</a>-like feature which allows you to convert your opponent’s cells into your own. This is achieved by completely surrounding your opponent’s cells or sandwiching them between the edge of a board and your cells.</p></li>
+<li><p><strong>Partial Cells</strong>: Allow and score partial cells. Triangular cell’s might not be too hard to add in.</p></li>
+<li><p><strong>Custom Board Builder</strong>: Create a GUI that allows the user to click on a grid to define the feasible positions of thier custom board. Boards can naturally be stored as a binary matrix, thus it would be easy to let the user save and upload thier board.</p></li>
 </ul>
 </div>
+<div class="footnotes">
+<hr />
+<ol>
+<li id="fn1"><p>One of the motivations for creating this game was out of frustration with Candy Crush which after awhile becomes a game of luck rather than skill.<a href="#fnref1">↩</a></p></li>
+<li id="fn2"><p>Basic HTML and CSS were also used.<a href="#fnref2">↩</a></p></li>
+</ol>
 </div>
 
 
