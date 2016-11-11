@@ -1,0 +1,10 @@
+name: Cell_Division
+account: mmotoki
+server: shinyapps.io
+appId: 135190
+bundleId: 608815
+url: https://mmotoki.shinyapps.io/cell_division/
+when: 1478600038.89116
+asMultiple: FALSE
+asStatic: FALSE
+ignoredFiles: color scheme.txt|README.md|www/Rmarkdown/about.Rmd|www/Rmarkdown/beaker1.png|www/Rmarkdown/beaker2.png|www/Rmarkdown/petri1.png|www/Rmarkdown/petri2.png|www/Rmarkdown/petri3.png|www/Rmarkdown/petri4.png|www/Rmarkdown/tutorial.html|www/Rmarkdown/tutorial.Rmd

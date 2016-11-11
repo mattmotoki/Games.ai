@@ -21,7 +21,12 @@ play_game <- function(input, output, session, type) {
   source(file.path("www", "initial values", "initialize_rvs.R"),  local = TRUE)
   
   # Plot Output
-  output$board_plot <- renderPlot(plot_board( rv$plot_params, rv$connection_traj, rv$h), res = 10)
+  observe({
+    # don't plot player's move when playing against AI
+    if (rv$player=="1" && input$player_mode=="1" && rv$timestep>1) {return()}
+    output$board_plot <- renderPlot(plot_board( rv$plot_params, rv$connection_traj, rv$h), res = 10)
+  })
+
   
   # Move Implementations:  
   #  user move, AI move, undo move, reset all moves

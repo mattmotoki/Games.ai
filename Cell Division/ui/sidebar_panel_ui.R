@@ -4,8 +4,8 @@ sidebarPanel(
   #--------------
   # header
   fluidRow(
-    column(8, p("Game Options", style = "color: #3BC4A1; font-size:24pt;"), align = "center"),
-    column(4,
+    column(6, p("Options", style = "color: #3BC4A1; font-size:24pt;"), align = "center"),
+    column(6,
            fluidRow(
              column(12,
                     tags$a(href = "https://github.com/mattmotoki/Games.ai", target = "_blank",
@@ -75,7 +75,7 @@ sidebarPanel(
   fluidRow(
     column(12,
            
-           tags$a(href = "https://github.com/boto/boto#user-content-finding-out-more-about-boto",
+           tags$a(href = "https://www.linkedin.com/in/matthew-motoki-9b7884a2",
                   HTML('Created by Matt Motok<i class="fa fa-info-circle" aria-hidden="true"></i>'),
                   target = "_blank",
                   style = "color: #3BA3C4"),
