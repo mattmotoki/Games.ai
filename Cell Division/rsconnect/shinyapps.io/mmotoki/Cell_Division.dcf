@@ -2,9 +2,9 @@ name: Cell_Division
 account: mmotoki
 server: shinyapps.io
 appId: 135190
-bundleId: 608815
+bundleId: 615893
 url: https://mmotoki.shinyapps.io/cell_division/
-when: 1478600038.89116
+when: 1479272018.8885
 asMultiple: FALSE
 asStatic: FALSE
-ignoredFiles: color scheme.txt|README.md|www/Rmarkdown/about.Rmd|www/Rmarkdown/beaker1.png|www/Rmarkdown/beaker2.png|www/Rmarkdown/petri1.png|www/Rmarkdown/petri2.png|www/Rmarkdown/petri3.png|www/Rmarkdown/petri4.png|www/Rmarkdown/tutorial.html|www/Rmarkdown/tutorial.Rmd
+ignoredFiles: extras/cell_design_test.R|extras/cell_logo.R|extras/cell_plot_utils.R|extras/color scheme.txt|extras/diagonal_cell_count.R|extras/multi_cell_design.R|extras/single_cell_design.R|extras/temp.png|extras/undo_move print out.docx|extras/vertical_cell_count.R

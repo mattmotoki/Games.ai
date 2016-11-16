@@ -13,8 +13,8 @@ mainPanel(
              plotOutput(
                ns("board_plot"),
                click = ns("plot_click"),
-               hover = hoverOpts(id = ns("plot_hover"), delay = 100, delayType = "throttle"),
-               height = 450, width = 450) 
+               # hover = hoverOpts(id = ns("plot_hover"), delay = 100, delayType = "throttle"),
+               height = 375, width = 375) 
       ),
       align="center"
     ),

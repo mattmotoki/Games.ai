@@ -1,0 +1,20 @@
+{
+    "collab_server" : "",
+    "contents" : "# add AI moves to the board\nobserveEvent(c(rv$player, input$player_mode, input$play_again, input$first_move), {\n  \n  \n  # if it's A.I.'s turn\n  if (input$player_mode==\"1\" && rv$player==\"2\" ) {\n    # initialize things on first click    \n    if (is.null(rv$open_pos)) { rv <- on_first_click(rv, type) }\n    \n    # get move\n    if (length(rv$open_pos)<=1) { # only one move (sample gives error)\n      if (length(rv$open_pos)==0) { return() } # return if no moves\n      ind0 <- rv$open_pos\n    } else {\n      player <- as.numeric(rv$player)\n      \n      # apply gravity if neccesary\n      if (type==\"petri_game\") { moves <- rv$open_pos }\n      else {\n        # get rows and columns with respect to no margin\n        rows <- ((rv$open_pos-1) %% (rv$h+4)) - 1\n        cols <- floor((rv$open_pos-1) / (rv$h+4)) - 1\n        \n        # get the lowest open rows (assuming open_pos is sorted)\n        inds <- which(diff(c(0, cols)) >0)\n        moves <- sub2ind(rows[inds], cols[inds], rv$h)\n      }\n      \n      # lookup feature vectors\n      features <- cbind(\n        score_calc(rv$overlap[[2]][moves], rv$interlap[[2]][moves], rv$extensions[[2]][moves], rv$lone_cell[[2]][moves]),\n        score_calc(rv$overlap[[1]][moves], rv$interlap[[1]][moves], rv$extensions[[1]][moves], rv$lone_cell[[1]][moves]),\n        rv$openness[moves],\n        rv$centrality[moves]\n      )\n      \n      # caluculate the value of the feature vectors\n      easy_coef <- c(10, 5, 0, 0)\n      hard_coef <- c(2, 2, 1, 1)\n      if (input$adaptive==\"1\") {\n          score_diff <- diff(rv$score_traj[rv$timestep + 1:0]) # your score - AI score\n          alpha <- 0.01*min(max(input$skill + score_diff, 1), 100) # weighting\n          value <- features %*% (alpha*hard_coef + (1-alpha)*easy_coef)\n      } else {\n        if (input$difficulty==\"1\") {\n          value <- features %*% easy_coef\n        } \n        else if (input$difficulty==\"2\") {\n          value <- features %*% (easy_coef + hard_coef)/2\n        }\n        else if (input$difficulty==\"3\") {\n          value <- features %*% hard_coef\n        }\n      }\n\n      # get most valuable move\n      ind0 <- moves[which.max(value)[1]]\n    }\n    \n    # implement move\n    rv <- implement_move(rv, ind0)\n  }\n})",
+    "created" : 1478838036093.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "1774493594",
+    "id" : "65F07E7A",
+    "lastKnownWriteTime" : 1478841498,
+    "last_content_update" : 1478841498531,
+    "path" : "~/GitHub/Games.ai/Cell Division/server/moves/AI_move_server.R",
+    "project_path" : "server/moves/AI_move_server.R",
+    "properties" : {
+    },
+    "relative_order" : 4,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}

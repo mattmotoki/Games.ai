@@ -1,0 +1,20 @@
+{
+    "collab_server" : "",
+    "contents" : "---\ntitle: \"Cell Division Tutorial\"\noutput: \n  html_document:\n    toc: FALSE\n    theme: flatly\n---\n<!--\nsimplex\ncosmo\nunited\nreadable\ndate: \"`r format(Sys.time(), '%d %B, %Y')`\"\n-->\n\n<!-- <img src=\"logo.png\" style=\"position:absolute;top:0px;right:10px;\" /> -->\n\n\n# How to Play\nCell Division is a strategy-based board game with a biology inspired theme.  \n\n\n### Select any open position to insert your cell.  For the Petri layout click in any open square.  \n\n<img src=\"petri1.png\" />\n<img src=\"petri2.png\" />\n\n\n\n### For the beaker and flask layout, cells fall to the lowest row (gravity applies).\n\n\n<img src=\"beaker1.png\" />\n<img src=\"beaker2.png\" />\n\n\n\n\n### Cells divide into more cells whenever a connection of the same color is made; horizontal, vertical, and diagonal connections are allowed. \n\n<img src=\"petri3.png\" />\n\n\n\n\n### Your score is equal to the total number of cells with your color. \n\n\n\n### The game ends once the board is full.  The player with the highest score at the end of the game score wins!\n\n<img src=\"petri4.png\" />\n\n\n\n\n\n\n\n",
+    "created" : 1478841874645.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "1585221228",
+    "id" : "C144B59E",
+    "lastKnownWriteTime" : 1478599559,
+    "last_content_update" : 1478599559,
+    "path" : "~/GitHub/Games.ai/Cell Division/www/Rmarkdown/tutorial.Rmd",
+    "project_path" : "www/Rmarkdown/tutorial.Rmd",
+    "properties" : {
+    },
+    "relative_order" : 9,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_markdown"
+}

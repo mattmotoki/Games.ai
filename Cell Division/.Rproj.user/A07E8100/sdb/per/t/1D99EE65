@@ -1,0 +1,20 @@
+{
+    "collab_server" : "",
+    "contents" : "library(data.table)\n\nh <- 4\nw <- 4\nind2sub <- function(ind) {\n  cbind( ((ind-1) %% h) + 1,  floor((ind-1) / h) + 1)\n}\n\n\nadj_ind <- (rep(c(-1,0,1), 3) + h*rep(0:2, each=3) - h)[-5]\nopen_pos <- (1:16)[-c(1,4,13,16)]\n\nconnect_dt <- data.table(expand.grid(ind0=open_pos, ind=adj_ind))[, ind:=ind+ind0]\n\n\nsetorder(connect_dt, \"ind0\")\nconnect_dt\n\nind2sub(open_pos)\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n",
+    "created" : 1478835248327.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "3507152051",
+    "id" : "1D99EE65",
+    "lastKnownWriteTime" : 1478837738,
+    "last_content_update" : 1478837738960,
+    "path" : "~/GitHub/Games.ai/Cell Division/extras/test.R",
+    "project_path" : "extras/test.R",
+    "properties" : {
+    },
+    "relative_order" : 1,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}

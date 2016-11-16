@@ -21,7 +21,7 @@ readable
 
 
 # Introduction 
-Cell Division is a strategy-based board game with a biology inspired theme.  This game is intended for those who like strategy/puzzles and dislike luck/probability^[One of the motivations for creating this game was out of frustration with Candy Crush which after awhile becomes a game of luck rather than skill.].  All A.I. opponents implement a deterministic strategy that is greedy with respect to some heuristic.  Games against a fixed difficulty A.I. opponent are completely reproducible and can be thought of as a type of puzzle; i.e., you can design a strategy that specifically exploits the A.I. opponent's weaknesses.  
+Cell Division is a strategy-based board game with a biology inspired theme.  This game is intended for those who like strategy/puzzles and dislike luck/probability^[One of the motivations for creating this game was out of frustration with Candy Crush which after awhile becomes a game of luck rather than skill.].  All A.I. opponents implement a deterministic strategy that is greedy with respect to an approximate value function.  Games against a fixed difficulty A.I. opponent are completely reproducible and can be thought of as a type of puzzle; i.e., you can design a strategy that specifically exploits the A.I. opponent's weaknesses.  
 
 # Implementation
 Cell Division was written entirely^[Basic HTML and CSS were also used.] in the [R programming](https://cran.r-project.org/) language; in fact, even this about page was written using R.  The user interface and the server logic was created using RStudio's [Shiny](http://shiny.rstudio.com/) web app framework.  The main display uses base R graphics --- the display is essentially just a plot of squares and lines in the x-y plane --- and the visual effects come from the [shinyjs](https://github.com/daattali/shinyjs) package.
@@ -39,7 +39,7 @@ First, it should be noted that every single one of the opponent's strategies are
 ## Thinking like the "A.I." Opponent
 In order to beat your opponent, you should think like your opponent.  
 
-All oppponent's follow a greedy with respect to some heuristic approximation of the value of a move.  The quality of the heuristic determines the difficulty of the opponent.  Since the objective is to maximize your score, it makes sense to approximate the long term benefit of a move with its immediate increase in score.  It turn's out that the increase in score can be decomposed in the a function of the following four variables: 
+All oppponent's follow a greedy with respect to some approximation of the value of a move.  The quality of the approximation determines the difficulty of the opponent.  Since the objective is to maximize your score, it makes sense to approximate the long term benefit of a move with its immediate increase in score.  It turn's out that the increase in score can be decomposed in the a function of the following four variables: 
 
 * $\text{overlap}(\text{move})$ is the number of cells adjacent to a move,
 * $\text{interlap}(\text{move})$ is the number of times the move is sandwitched by it's cell and it's opposite
@@ -103,7 +103,7 @@ The adaptive opponent adapts to your play in two ways:
 2. It adapts its entire strategy after a game.
 
 
-Formally, the adaptive player uses a blend (convex combination) of the normalized easy player's heuristic and the normalized hard player's heuristic.  
+Formally, the adaptive player uses a blend (convex combination) of the normalized easy player's score approximation and the normalized hard player's score approximation.  
 $$
 \text{adaptive}(\text{move}) 
 = \text{skill}' \cdot \frac{\text{hard}(\text{move})}{\max\limits_{m}\{ \text{hard}(m) \} } 
@@ -144,7 +144,7 @@ There are many variations on this game that can be played.  What follows is an u
     + **Cell Swap**: Let player's swap their cell's with their oppoent's (enforce [no backsies](http://www.urbandictionary.com/define.php?term=no%20backsies)); 
     + **Cell Jumps**: Let players jump their opponent's cells to convert them to one of their own (as in checkers).
 
-* **Triangular and Hexagonal Grids**: Storing a board defined over these grids can be done by modifying what it means to be adjacent to another cell.  Thus, boards can be stored and analyzed in a similar way to the rectangular grid.  The heuristics that the A.I. opponents use will probably also generalize well to these types of grids. 
+* **Triangular and Hexagonal Grids**: Storing a board defined over these grids can be done by modifying what it means to be adjacent to another cell.  Thus, boards can be stored and analyzed in a similar way to the rectangular grid.  The approximations that the A.I. opponents use will probably also generalize well to these types of grids. 
 
 
 * **Modified Scoring**: One of the problems with this game is that the scoring system --- although well-defined --- is not very intuitive.  A more natural scoring system may be to count the number of connections rather than the number of divisions.

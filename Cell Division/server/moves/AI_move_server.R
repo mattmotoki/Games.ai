@@ -1,5 +1,5 @@
 # add AI moves to the board
-observeEvent(c(rv$player, input$player_mode, input$play_again), {
+observeEvent(c(rv$player, input$player_mode, input$play_again, input$first_move), {
   
   
   # if it's A.I.'s turn
@@ -35,72 +35,24 @@ observeEvent(c(rv$player, input$player_mode, input$play_again), {
       )
       
       # caluculate the value of the feature vectors
-      coef <- c(10, 5, 0.5, 0.01)
+      easy_coef <- c(10, 5, 0, 0)
+      hard_coef <- c(2, 2, 1, 1)
       if (input$adaptive=="1") {
           score_diff <- diff(rv$score_traj[rv$timestep + 1:0]) # your score - AI score
           alpha <- 0.01*min(max(input$skill + score_diff, 1), 100) # weighting
-          value <- features %*% (alpha*coef + (1-alpha)*rev(coef))
+          value <- features %*% (alpha*hard_coef + (1-alpha)*easy_coef)
       } else {
         if (input$difficulty=="1") {
-          value <- features %*% rev(coef)
+          value <- features %*% easy_coef
         } 
         else if (input$difficulty=="2") {
-          value <- features %*% (coef + rev(coef))/2
+          value <- features %*% (easy_coef + hard_coef)/2
         }
         else if (input$difficulty=="3") {
-          value <- features %*% coef
+          value <- features %*% hard_coef
         }
       }
-      print(cbind(features, value, ((moves-1) %% (rv$h+4)) - 1, floor((moves-1) / (rv$h+4)) -1))
-      
-      # # calcualte the difficulty of AI (value of a state)
-      # if (input$adaptive=="1") {
-      #   # get the easy and hard opponent's heuristic
-      #   easy_value <- rv$overlap[[2]][moves] + 
-      #     0.01*rv$centrality[moves]
-      #   hard_value <- score_calc(rv$overlap[[2]][moves],
-      #                            rv$interlap[[2]][moves],
-      #                            rv$extensions[[2]][moves],
-      #                            rv$lone_cell[[2]][moves]) + 
-      #     0.75 * score_calc(rv$overlap[[1]][moves],
-      #                       rv$interlap[[1]][moves],
-      #                       rv$extensions[[1]][moves],
-      #                       rv$lone_cell[[1]][moves]) + 
-      #     0.5*rv$openness[moves] +
-      #     0.01*rv$centrality[moves]
-      #   
-      #   
-      #   # apply within game adaptivity
-      #   score_diff <- diff(rv$score_traj[rv$timestep + 1:0]) # your score - AI score
-      #   alpha <- 0.01*min(max(input$skill + score_diff, 1), 100) # weighting
-      #   value <- alpha*hard_value/max(hard_value) + (1-alpha)*easy_value/max(easy_value)
-      #   
-      # } else {
-      #   if (input$difficulty=="1") {
-      #     # easy
-      #     value <- rv$overlap[[2]][moves] 
-      #     0.01*rv$centrality[moves]
-      #   } else if (input$difficulty=="2") {
-      #     # medium
-      #     value <- score_calc(rv$overlap[[2]][moves],
-      #                         rv$interlap[[2]][moves],
-      #                         rv$extensions[[2]][moves],
-      #                         rv$lone_cell[[2]][moves]) + 
-      #       0.01*rv$centrality[moves]
-      #   } else  {
-      #     # hard
-      #     value <- score_calc(rv$overlap[[2]][moves],
-      #                         rv$interlap[[2]][moves],
-      #                         rv$extensions[[2]][moves],
-      #                         rv$lone_cell[[2]][moves]) + 
-      #       0.75 * score_calc(rv$overlap[[1]][moves],
-      #                         rv$interlap[[1]][moves],
-      #                         rv$extensions[[1]][moves],
-      #                         rv$lone_cell[[1]][moves]) + 
-      #       0.1*rv$openness[moves] +
-      #       0.01*rv$centrality[moves]
-      #   }        
-      # }
+
       # get most valuable move
       ind0 <- moves[which.max(value)[1]]
     }

@@ -233,7 +233,7 @@ readable
 <!-- <img src="logo.png" style="position:absolute;top:0px;right:10px;" /> -->
 <div id="introduction" class="section level1">
 <h1>Introduction</h1>
-<p>Cell Division is a strategy-based board game with a biology inspired theme. This game is intended for those who like strategy/puzzles and dislike luck/probability<a href="#fn1" class="footnoteRef" id="fnref1"><sup>1</sup></a>. All A.I. opponents implement a deterministic strategy that is greedy with respect to some heuristic. Games against a fixed difficulty A.I. opponent are completely reproducible and can be thought of as a type of puzzle; i.e., you can design a strategy that specifically exploits the A.I. opponent’s weaknesses.</p>
+<p>Cell Division is a strategy-based board game with a biology inspired theme. This game is intended for those who like strategy/puzzles and dislike luck/probability<a href="#fn1" class="footnoteRef" id="fnref1"><sup>1</sup></a>. All A.I. opponents implement a deterministic strategy that is greedy with respect to an approximate value function. Games against a fixed difficulty A.I. opponent are completely reproducible and can be thought of as a type of puzzle; i.e., you can design a strategy that specifically exploits the A.I. opponent’s weaknesses.</p>
 </div>
 <div id="implementation" class="section level1">
 <h1>Implementation</h1>
@@ -246,7 +246,7 @@ readable
 <div id="thinking-like-the-a.i.-opponent" class="section level2">
 <h2>Thinking like the “A.I.” Opponent</h2>
 <p>In order to beat your opponent, you should think like your opponent.</p>
-<p>All oppponent’s follow a greedy with respect to some heuristic approximation of the value of a move. The quality of the heuristic determines the difficulty of the opponent. Since the objective is to maximize your score, it makes sense to approximate the long term benefit of a move with its immediate increase in score. It turn’s out that the increase in score can be decomposed in the a function of the following four variables:</p>
+<p>All oppponent’s follow a greedy with respect to some approximation of the value of a move. The quality of the approximation determines the difficulty of the opponent. Since the objective is to maximize your score, it makes sense to approximate the long term benefit of a move with its immediate increase in score. It turn’s out that the increase in score can be decomposed in the a function of the following four variables:</p>
 <ul>
 <li><span class="math inline">\(\text{overlap}(\text{move})\)</span> is the number of cells adjacent to a move,</li>
 <li><span class="math inline">\(\text{interlap}(\text{move})\)</span> is the number of times the move is sandwitched by it’s cell and it’s opposite</li>
@@ -297,7 +297,7 @@ readable
 <li>It adapts to your play within a game.</li>
 <li>It adapts its entire strategy after a game.</li>
 </ol>
-<p>Formally, the adaptive player uses a blend (convex combination) of the normalized easy player’s heuristic and the normalized hard player’s heuristic.<br />
+<p>Formally, the adaptive player uses a blend (convex combination) of the normalized easy player’s score approximation and the normalized hard player’s score approximation.<br />
 <span class="math display">\[
 \text{adaptive}(\text{move}) 
 = \text{skill}' \cdot \frac{\text{hard}(\text{move})}{\max\limits_{m}\{ \text{hard}(m) \} } 
@@ -331,7 +331,7 @@ readable
 <li><strong>Cell Swap</strong>: Let player’s swap their cell’s with their oppoent’s (enforce <a href="http://www.urbandictionary.com/define.php?term=no%20backsies">no backsies</a>);</li>
 <li><strong>Cell Jumps</strong>: Let players jump their opponent’s cells to convert them to one of their own (as in checkers).</li>
 </ul></li>
-<li><p><strong>Triangular and Hexagonal Grids</strong>: Storing a board defined over these grids can be done by modifying what it means to be adjacent to another cell. Thus, boards can be stored and analyzed in a similar way to the rectangular grid. The heuristics that the A.I. opponents use will probably also generalize well to these types of grids.</p></li>
+<li><p><strong>Triangular and Hexagonal Grids</strong>: Storing a board defined over these grids can be done by modifying what it means to be adjacent to another cell. Thus, boards can be stored and analyzed in a similar way to the rectangular grid. The approximations that the A.I. opponents use will probably also generalize well to these types of grids.</p></li>
 <li><p><strong>Modified Scoring</strong>: One of the problems with this game is that the scoring system — although well-defined — is not very intuitive. A more natural scoring system may be to count the number of connections rather than the number of divisions.</p></li>
 <li><p><strong>Cell Capture</strong>: This is a <a href="https://en.wikipedia.org/wiki/Go_(game)" target="_blank">Go</a>-like feature which allows you to convert your opponent’s cells into your own. This is achieved by completely surrounding your opponent’s cells or sandwiching them between the edge of a board and your cells.</p></li>
 <li><p><strong>Partial Cells</strong>: Allow and score partial cells. Triangular cell’s might not be too hard to add in.</p></li>

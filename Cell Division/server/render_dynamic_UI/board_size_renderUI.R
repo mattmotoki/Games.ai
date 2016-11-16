@@ -6,10 +6,15 @@ output$board_size_ui <- renderUI({
     #----------
     # Petri Game
     tagList(
-      fluidRow(  column(12, selectInput(ns("petri_n"), "Number of Cells", as.list(petri_dims$n_cells), selected = 12) ) ),
-      fluidRow(  
-        column(6, actionButton(ns("dec_petri"), "decrease", icon=icon("arrow-down")), align="left" ) ,
-        column(6, actionButton(ns("inc_petri"), "increase", icon=icon("arrow-up")), align="right" ) 
+      fluidRow(
+        column(12, 
+               selectInput(ns("petri_n"), p(
+                 "Number of Cells: ", HTML("&nbsp"),
+                 actionLink(ns("dec_petri"), "", icon=icon("chevron-down"), style="color: black;"),
+                 actionLink(ns("inc_petri"), "", icon=icon("chevron-up"), style="color: black;"),
+                 style="margin-bottom:0; padding-bottom:0;"
+               ), as.list(petri_dims$n_cells), selected = 16) 
+        )
       )
     )
     
@@ -17,9 +22,22 @@ output$board_size_ui <- renderUI({
     #----------
     # Beaker Game
     fluidRow( 
-      column(6, numericInput(ns("beaker_height"), "Height", min = 2, max = 10, value = 3, step = 1)),
-      column(6, numericInput(ns("beaker_width"), "Width",   min = 2, max = 10, value = 4, step = 1)),
-      div(style="display:inline; text-indent: 15px;", p(textOutput(ns("total_cells"))))
+      column(6, 
+             selectInput(ns("beaker_height"), p(
+               "Height: ", HTML("&nbsp"),
+               actionLink(ns("dec_beaker_h"), "", icon=icon("chevron-down"), style="color: black;"),
+               actionLink(ns("inc_beaker_h"), "", icon=icon("chevron-up"), style="color: black;"),
+               style="margin-bottom:0; padding-bottom:0;"
+             ), as.list(2:10), selected = 3) 
+      ), 
+      column(6, 
+             selectInput(ns("beaker_width"), p(
+               "Width: ", HTML("&nbsp"),
+               actionLink(ns("dec_beaker_w"), "", icon=icon("chevron-down"), style="color: black;"),
+               actionLink(ns("inc_beaker_w"), "", icon=icon("chevron-up"), style="color: black;"),
+               style="margin-bottom:0; padding-bottom:0;"
+             ), as.list(2:10), selected = 4) 
+      )
     )
     
     
@@ -27,12 +45,23 @@ output$board_size_ui <- renderUI({
     #----------
     # Flask Game
     fluidRow( 
-      column(6, numericInput(ns("flask_neck_h"), "Neck-Height", min = 2, max = 10, value = 3, step = 1) ),
-      column(6, numericInput(ns("flask_base_w"), "Base-Width",   min = 4, max = 10, value = 6, step = 2) ),
-      div(style="display:inline; text-indent: 15px;", p(textOutput(ns("total_cells"))))
+      column(6, 
+             selectInput(ns("flask_neck_h"), p(
+               "Neck-Height: ", HTML("&nbsp"),
+               actionLink(ns("dec_neck_h"), "", icon=icon("chevron-down"), style="color: black;"),
+               actionLink(ns("inc_neck_h"), "", icon=icon("chevron-up"), style="color: black;"),
+               style="margin-bottom:0; padding-bottom:0;" 
+             ), as.list(2:8), selected = 3) 
+      ), 
+      column(6, 
+             selectInput(ns("flask_base_w"), p(
+               "Base-Width: ", HTML("&nbsp"),
+               actionLink(ns("dec_base_w"), "", icon=icon("chevron-down"), style="color: black;"),
+               actionLink(ns("inc_base_w"), "", icon=icon("chevron-up"), style="color: black;"),
+               style="margin-bottom:0; padding-bottom:0;" 
+             ), as.list(seq(4, 10, 2)), selected = 6) 
+      )
     )
   } 
 }) 
 
-# output total cells in board
-output$total_cells <- renderText(paste0("Total number of cells: ", rv$plot_params$n_cells))

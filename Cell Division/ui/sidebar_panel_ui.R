@@ -16,7 +16,7 @@ sidebarPanel(
            ),           
            fluidRow(
              column(12,
-                    tags$a(href = "Rmarkdown/tutorial_final.html", target = "_blank",
+                    tags$a(href = "Rmarkdown/tutorial.html", target = "_blank",
                            HTML('<i class="fa fa-play-circle" aria-hidden="true"></i> Tutorial'),
                            style = "color: #3BC4A1"),
                     align = "right"            
@@ -32,7 +32,7 @@ sidebarPanel(
            )
     )
   ),
-  br(),
+
   
   
   #--------------
@@ -48,7 +48,7 @@ sidebarPanel(
     # get the size of the board
     fluidRow( h4(actionLink(ns("board_size_link"), "Board Size", icon=icon("sort"))) ),
     fluidRow( id = ns("board_size_section"), uiOutput(ns("board_size_ui")) ),
-    br(),
+    
     
     # Opponent difficulty
     fluidRow(h4(actionLink(ns("player_options_link"), "Player Options", icon=icon("user")))),
@@ -56,13 +56,13 @@ sidebarPanel(
       id = ns("player_options_section"),
       column(6,
              fluidRow( radioButtons(ns("player_mode"), "Mode", list("A.I."="1", "Two Player"="2"), selected = "1") ),
-             fluidRow( radioButtons(ns("adaptive"), "Adaptivity", list("On" = "1", "Off"="0"), selected = "1" ) ), 
+             fluidRow( radioButtons(ns("adaptive"), "Adaptivity", list("On" = "1", "Off"="0"), selected = "0" ) ), 
              align="left"
       ),
       column(6,
              fluidRow( uiOutput(ns("first_move_ui")) ),
-             fluidRow( hidden(radioButtons(ns("difficulty"), "Difficulty", list("Easy"="1", "Medium"="2", "Hard"="3"), selected="2") )),
-             fluidRow( sliderInput(ns("skill"), "A.I. Skill", value=50, min=1, max=100, ticks=FALSE) ), 
+             fluidRow( radioButtons(ns("difficulty"), "Difficulty", list("Easy"="1", "Medium"="2", "Hard"="3"), selected="1") ),
+             fluidRow( hidden(sliderInput(ns("skill"), "A.I. Skill", value=50, min=0, max=100, ticks=FALSE) )), 
              align="right"
       )
     )

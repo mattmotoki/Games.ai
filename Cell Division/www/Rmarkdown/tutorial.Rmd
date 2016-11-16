@@ -1,55 +1,27 @@
 ---
 title: "Cell Division Tutorial"
+author: "Matt Motoki"
+date: "October 29, 2016"
 output: 
-  html_document:
-    toc: FALSE
-    theme: flatly
+  ioslides_presentation:
+    widescreen: false
+    logo: cells/cell_logo.png
+    css: tutorial_style.css
 ---
-<!--
-simplex
-cosmo
-united
-readable
-date: "`r format(Sys.time(), '%d %B, %Y')`"
--->
-
-<!-- <img src="logo.png" style="position:absolute;top:0px;right:10px;" /> -->
-
-
-# How to Play
-Cell Division is a strategy-based board game with a biology inspired theme.  
-
-
-### Select any open position to insert your cell.  For the Petri layout click in any open square.  
-
-<img src="petri1.png" />
-<img src="petri2.png" />
 
 
 
-### For the beaker and flask layout, cells fall to the lowest row (gravity applies).
+## <img src="cells/cell_v1.png" class="cell"/> Intro
 
+Cell Division is a strategy-based board game.
 
-<img src="beaker1.png" />
-<img src="beaker2.png" />
+Your opponent is completely non-random
 
+Different levels of difficulty and flexible board layouts
 
+Visual aids for the scoring system
 
-
-### Cells divide into more cells whenever a connection of the same color is made; horizontal, vertical, and diagonal connections are allowed. 
-
-<img src="petri3.png" />
-
-
-
-
-### Your score is equal to the total number of cells with your color. 
-
-
-
-### The game ends once the board is full.  The player with the highest score at the end of the game score wins!
-
-<img src="petri4.png" />
+Many variants of the basic game are possible
 
 
 
@@ -57,3 +29,90 @@ Cell Division is a strategy-based board game with a biology inspired theme.
 
 
 
+```{r chop img, echo=FALSE}
+library(png)
+library(grid)
+plot_img <- function(img_name) {
+  img <- readPNG(img_name)
+  grid.raster(img[120:(dim(img)[1]-2), 500:(dim(img)[2]-2), ])
+}
+
+```
+## <img src="cells/cell_v2.png" class="cell" "/> Placing Your Cell
+Select any open position to insert your cell.
+```{r, out.width = "100%", echo=FALSE}
+plot_img(file.path("layouts", "petri1.png"))
+```
+
+## <img src="cells/cell_v2.png" class="cell" "/> Placing Your Cell
+In the Petri layout click in any open square.
+```{r, out.width = "100%", echo=FALSE}
+plot_img(file.path("layouts", "petri2.png"))
+```
+
+
+## <img src="cells/cell_v2.png" class="cell" "/> Placing Your Cells
+In the beaker and flask layout, cells fall to the bottommost row.
+```{r, out.width = "100%", echo=FALSE}
+plot_img(file.path("layouts", "beaker1.png"))
+```
+
+
+## <img src="cells/cell_v3.png" class="cell" "/> Placing Your Cells
+In the beaker and flask layout, cells fall to the bottommost row.
+```{r, out.width = "100%", echo=FALSE}
+plot_img(file.path("layouts", "beaker2.png"))
+```
+
+## <img src="cells/cell_v3.png" class="cell" "/> Scoring System
+Cells divide into more cells when a connection is made.
+```{r, out.width = "100%", echo=FALSE}
+plot_img(file.path("layouts", "petri3.png"))
+```
+
+## <img src="cells/cell_v3.png" class="cell" "/> Scoring System
+Horizontal, vertical, and diagonal connections are allowed.
+```{r, out.width = "100%", echo=FALSE}
+plot_img(file.path("layouts", "petri3.png"))
+```
+
+
+## <img src="cells/cell_v3.png" class="cell" "/> Scoring System
+Your score is equal to the number of cells with your color.
+```{r, out.width = "100%", echo=FALSE}
+plot_img(file.path("layouts", "petri3.png"))
+```
+
+
+
+## <img src="cells/cell_v4.png" class="cell" "/> And the Winner is...
+The game ends once the board is full.
+```{r, out.width = "100%", echo=FALSE}
+plot_img(file.path("layouts", "petri4.png"))
+```
+
+## <img src="cells/cell_v4.png" class="cell" "/> And the Winner is...
+The player with the highest score wins!
+```{r, out.width = "100%", echo=FALSE}
+plot_img(file.path("layouts", "petri4.png"))
+```
+
+
+
+## <img src="cells/cell_v8.png" class="cell" "/> Thanks for Playing!!!
+
+
+
+
+
+
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
