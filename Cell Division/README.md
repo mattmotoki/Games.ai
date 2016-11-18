@@ -1,6 +1,6 @@
 # Cell Division
 
-Play the game [here](https://mmotoki.shinyapps.io/Module_Test/).  
+Play the game [here](https://mmotoki.shinyapps.io/cell_division/).  
 
 A short tutorial on how to play is [here](www/Rmarkdown/tutorial.html).
 
