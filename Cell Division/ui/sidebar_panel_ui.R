@@ -8,31 +8,37 @@ sidebarPanel(
     column(6,
            fluidRow(
              column(12,
-                    tags$a(href = "https://github.com/mattmotoki/Games.ai", target = "_blank",
-                           HTML('<i class="fa fa-github" aria-hidden="true"></i> More Games'),
-                           style = "color: #3BC4A1"),
-                    align = "right"            
+                    tags$a(
+                      class = "game_link",
+                      title = "Games.ai github",
+                      href = "https://github.com/mattmotoki/Games.ai", target = "_blank",
+                      HTML('<i class="fa fa-github" aria-hidden="true"></i> More Games')
+                    ), align = "right"            
              )
            ),           
            fluidRow(
              column(12,
-                    tags$a(href = "Rmarkdown/tutorial.html", target = "_blank",
-                           HTML('<i class="fa fa-play-circle" aria-hidden="true"></i> Tutorial'),
-                           style = "color: #3BC4A1"),
-                    align = "right"            
+                    tags$a(
+                      class = "game_link",
+                      title = "short tutorial on how to play",
+                      href = "Rmarkdown/tutorial.html", target = "_blank",
+                      HTML('<i class="fa fa-play-circle" aria-hidden="true"></i> Tutorial')
+                    ), align = "right"            
              )
            ),
            fluidRow(
              column(12,
-                    tags$a(href = "Rmarkdown/about.html", target = "_blank",
-                           HTML('<i class="fa fa-book" aria-hidden="true"></i> About'),
-                           style = "color: #3BC4A1"),
-                    align = "right"            
+                    tags$a(
+                      class = "game_link",
+                      title = "details about the game",
+                      href = "Rmarkdown/about.html", target = "_blank",
+                      HTML('<i class="fa fa-book" aria-hidden="true"></i> About')
+                    ), align = "right"            
              )
            )
     )
   ),
-
+  
   
   
   #--------------
@@ -74,12 +80,13 @@ sidebarPanel(
   hr(style="background-color: #D0D0D0; height: 1px;") ,
   fluidRow(
     column(12,
-           
-           tags$a(href = "https://www.linkedin.com/in/matthew-motoki-9b7884a2",
-                  HTML('Created by Matt Motok<i class="fa fa-info-circle" aria-hidden="true"></i>'),
-                  target = "_blank",
-                  style = "color: #3BA3C4"),
-           align = "center"            
+           tags$a(
+             class = "bio_link",
+             title = "linkedin bio",
+             href = "https://www.linkedin.com/in/matthew-motoki-9b7884a2",
+             HTML('Created by Matt Motok<i class="fa fa-info-circle" aria-hidden="true"></i>'),
+             target = "_blank"
+           ), align = "center"            
     )
   )
   

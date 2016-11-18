@@ -1,21 +1,27 @@
-body {
-  background: #fff;
-  margin: 0 15px;
-  padding-bottom: 20px;
+
+// header stuff
+#navbar_header_content {
+    color: #3BA3C4;
 }
 
-.sidepanel {
-	background: #F5F5F5;
+#navbar_header_logo {
+	height: 25px;
+	vertical-align: text-top;
 }
 
-abbr.show_help {
-	border-bottom: none;
+// sidebar links
+a.game_link {
+	color: #3BC4A1;
+}
+a.game_link:hover {
+    color: #3BA3C4
+}
+
+a.bio_link {
+	color: #3BA3C4;
+	text-align: center;
 }
 
 
-.header_hr {
-	background-color: #D0D0D0;
-	height: 1px;
-	padding: 0;
-	margin:0;
-}
+
+

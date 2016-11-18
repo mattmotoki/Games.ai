@@ -9,14 +9,18 @@ for (f in dir(file.path("www", "functions"), full.names = TRUE, recursive = TRUE
 
 ui <- navbarPage(
   "header",
+  
   title = tags$a(
+    id = "navbar_header_content",
     href = "https://github.com/boto/boto#user-content-finding-out-more-about-boto",
-    p(tags$img(src = file.path("figures", "cell_logo.png"), style="height:25px; vertical-align: text-top"),
-      "Cell Division Prototype",
-      style="margin:0; padding:0;"),
     target = "_blank",
-    style = "color: #3BA3C4"),
+    tags$img(id="navbar_header_logo", src = file.path("images", "cell_logo.png") ),
+    HTML("&nbsp Cell Division Prototype"),
+    style = "color: #3BA3C4"
+  ),
+  
   windowTitle = "Cell Division",
+  
   
   theme=shinytheme("flatly"), 
   gameUI("petri", "Petri Dish", icon("dot-circle-o")),
@@ -24,7 +28,8 @@ ui <- navbarPage(
   gameUI("flask", "Erlenmeyer Flask", icon("flask")),
   
   tags$head(
-    tags$link(rel = "shortcut icon", href=file.path("figures", "small_icon.ico")),
+    tags$link(rel = "shortcut icon", href=file.path("images", "small_icon.ico")),
+    tags$link(href = "style.css", rel = "stylesheet"),
     tags$style(HTML("
           .navbar .navbar-nav {float: right}
           .navbar .navbar-header {float: left}

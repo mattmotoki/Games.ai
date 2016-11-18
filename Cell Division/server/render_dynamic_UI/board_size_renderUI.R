@@ -9,7 +9,7 @@ output$board_size_ui <- renderUI({
       fluidRow(
         column(12, 
                selectInput(ns("petri_n"), p(
-                 "Number of Cells: ", HTML("&nbsp"),
+                 HTML("Number of Cells: &nbsp"),
                  actionLink(ns("dec_petri"), "", icon=icon("chevron-down"), style="color: black;"),
                  actionLink(ns("inc_petri"), "", icon=icon("chevron-up"), style="color: black;"),
                  style="margin-bottom:0; padding-bottom:0;"
