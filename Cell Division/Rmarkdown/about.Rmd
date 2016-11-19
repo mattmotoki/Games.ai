@@ -3,10 +3,11 @@ title: "About Cell Division"
 author: Created by Matt Motoki
 output: 
   html_document:
+    highlight: pygments
     toc: TRUE
     toc_depth: 2
-    toc_float: 
-      collapsed: false
+    toc_float: true
+    collapsed: false
     theme: flatly
 ---
 <!--
@@ -29,6 +30,161 @@ Cell Division was written entirely^[Basic HTML and CSS were also used.] in the [
 The code for the game is available [here](https://github.com/mattmotoki/Games.ai/tree/master/Cell%20Division).
 
 
+# Creating The Cells
+Rather than drawing squares it is more visually appealing to show cartoons of cells.  This section describes the process of creating cells from scratch using base R graphics.
+
+
+## Raster Cells
+The simplest way to create the cells is to create a raster image (that is, a grid of pixels) for example, the logo fro Cell Division is a raster image:
+<center>![](../www/images/cell_logo.png)</center>
+
+
+
+
+
+### Defining the Outline
+
+
+Cells are drawn as layered polygons in base R.  Before calling the `polygon` function we must create a new plot.  The `blank_plot` function creates a new empty plot and draws lines to highlight the edges of the cell which we will take to be -0.5 and 0.5 in both directions. 
+```{r}
+blank_plot <- function() {
+  plot(1, type="n", asp=1,
+       yaxs="i", xaxs="i", xlab = "", ylab = "",
+       xlim = c(-0.1, 1.1), ylim = c(-0.1, 1.1)
+  )
+  abline(h=c(0, 1), v=c(0, 1))  
+}
+```
+
+For example, the outline of a single cell can be created using the following function
+```{r}
+square_cell <- function(r, n_pnts) {
+  R <- rep(r, n_pnts)
+  theta <- seq(0, 2*pi, length.out = 4*n_pnts)
+  
+  x <- r*cos(theta) + c(1-R, R, R, 1-R) 
+  y <- r*sin(theta) + c(1-R, 1-R, R, R) 
+  cbind(x, y)
+}
+
+# create outline for a single cell with 5 points per corner
+sq_outline <- square_cell(0.1, 5)
+x <- sq_outline[, 1]
+y <- sq_outline[, 2]
+
+# plot green cell
+cellgreen <- c(34/255,250/255,34/255)
+blank_plot()
+polygon(x, y, col=rgb(cellgreen[1], cellgreen[2], cellgreen[3]), lwd=2)
+points(x, y, pch =20)
+```
+
+More complex shapes can be achieved in a similar fashion.
+
+
+### Shading About the Center of Mass
+There are two types of shading used to create the cells.  Both types of shading are implemented by plotting a sequence of polygons centered about the center of mass with either decreasing/increasing size and decreasing/increasing transparency. 
+
+The center of mass (COM) can be calculated using the following hack.  First, we save the polygon image of the cell as a temporary png.  When we can then read it back into R as a 3-dimensional matrix (two dimensions for x and y and the third dimension for the RGBT value).  The center of mass can then be caluculated by taking inner products between the rows/cols of the transparency matrix and the corresponding y/x values. The `com_calc` takes in the `x` and `y` values of the cell outline and applies the aforementioned hack.
+```{r}
+com_calc <- function(x, y) {
+  # plot and save shape
+  png('temp.png', width = 1000, height = 1000)
+  par(mar=c(0,0,0,0), bg="NA")
+  plot(1, type="n", asp=1, axes = FALSE,
+       yaxs="i", xaxs="i", xlab = "", ylab = "",
+       xlim = c(0, 1), ylim = c(0, 1)
+  )
+  polygon(x, y, col=rgb(0,0,0), border=NA)
+  dev.off()
+  
+  # load in shape
+  img <- 1*(readPNG("temp.png")[, , 4]>0.5)
+  img <- img/sum(img)
+  
+  # calculate center of mass
+  com_x <- sum(img %*% seq(0, 1, length=dim(img)[1]))
+  com_y <- 1-sum(t(img) %*% seq(0, 1, length=dim(img)[1]))
+  
+  c(com_x, com_y)
+}
+```
+
+With the COM now in hand, we can now create the shadow for the ouline of the cell using a decreasing sequence of polygon size and transparency.  The next style of shading creates a dimple in the middle of the cell and created using an increasing sequence of polygon size and transparency.
+
+```{r}
+library(png)
+
+# plot a single cell with shadow and dimple
+plot_cell <- function(x, y, color) {
+  
+  # start with all black cell
+  polygon(x, y, col="black", border=NA)
+  
+  # get center of mass
+  com <- com_calc(x, y)
+  
+  # add shadow
+  n_layers <- 100
+  shink <- seq(1, 0,length=n_layers)
+  alpha <- seq(0.1, 1, length=n_layers)
+  for (k in 1:n_layers) {
+    polygon(shink[k]*(x-com[1])+com[1], shink[k]*(y-com[2])+com[2],
+            col=rgb(color[1], color[2], color[3], alpha[k]),
+            border=NA)
+  }
+  
+  # add dimple
+  n_layers <- 25
+  shink <- seq(0.25, 0.85, length=n_layers)^2
+  alpha <- seq(0.01, 0.05, length=n_layers)
+  color <- 0.5*color
+  for (k in 1:n_layers) {
+    polygon(shink[k]*(x-com[1])+com[1], shink[k]*(y-com[2])+com[2],
+            col=rgb(color[1], color[2], color[3], alpha[k]),
+            border=NA)
+  }
+}
+blank_plot()
+plot_cell(x, y, cellgreen)
+```
+
+### Smoothing
+The final step is to smooth out the values between the edges of the polygons.  This is done in R using smoothing spines.  
+
+```{r}
+library(fields)
+library(data.table)
+
+
+
+blank_plot()
+plot_cell(x, y, cellgreen)
+
+img <- readPNG("../www/images/cell_d1.png")
+img4 <- img[, ,4]
+  
+
+dt <- data.table(x = rep(seq_len(ncol(img4)), each = nrow(img4)),
+                 y = rep(seq_len(nrow(img4)), times = ncol(img4)),
+                 z = c(img4))
+
+
+
+mod <- gam(z ~ te(x, y), data = dt)
+img[, , 4] <- matrix(fitted(mod), ncol = ncol(img4))
+ 
+
+require("lattice")
+wireframe(m2)
+rasterImage(img)
+```
+
+
+
+
+## SVG Cells
+Next step cells as svgs. Because we already defined the outline of the cells in terms of their outlines, it may not be too hard to create cells as svgs.  This will also allow for creating better animations such as cell splitting which can be achieved by overlapping outlines. 
 
 
 
@@ -50,9 +206,9 @@ and the formula is
 
 $$\begin{split}
 \Delta \text{score}_p(\text{move}) 
-  &= \mathbb{I} \{\text{overlap}(\text{move})>1\} - \text{unconnected}(\text{move}) \\
-  &\quad + 2\cdot \big[\text{overlap}(\text{move}) - \text{interlap}(\text{move})\big] \\
-  &\quad + 2\cdot\big[  \text{overlap}(\text{move})  - \text{extensions}(\text{move}) \big],
+&= \mathbb{I} \{\text{overlap}(\text{move})>1\} - \text{unconnected}(\text{move}) \\
+&\quad + 2\cdot \big[\text{overlap}(\text{move}) - \text{interlap}(\text{move})\big] \\
+&\quad + 2\cdot\big[  \text{overlap}(\text{move})  - \text{extensions}(\text{move}) \big],
 \end{split}$$
 where $p$ denotes the player playing the move.  By convention, we define the first player ($p=1$) to be you and the second player ($p=2$) to be the A.I.  
 
@@ -85,10 +241,10 @@ Here the opponent tries to maximize its increase in score directly.  Again, with
 The hard opponent obtains a move by maximizing
 $$\begin{split}
 \text{hard}(\text{move}) 
-  &= \Delta \text{score}_2(\text{move}) 
-   \quad + 0.75\cdot \Delta \text{score}_1(\text{move}) \\
-  &\quad + 0.1\cdot \text{openness}(\text{move}) 
-   \quad + 0.01 \cdot \text{centrality}(\text{move}).
+&= \Delta \text{score}_2(\text{move}) 
+\quad + 0.75\cdot \Delta \text{score}_1(\text{move}) \\
+&\quad + 0.1\cdot \text{openness}(\text{move}) 
+\quad + 0.01 \cdot \text{centrality}(\text{move}).
 \end{split}$$
 The previous two opponents looked only at their own values.  The hard opponent takes into account how much a move will hurt your chances of increasing your own score.  In this way, it is a bit more adversarial than the previous two opponents.  The openness of a move is also given some weight and if all else is equal, the hard opponent will choose a move closest to the center of the board.
 
@@ -136,13 +292,13 @@ Hence, if you beat your opponent, then its skill goes up by the score difference
 There are many variations on this game that can be played.  What follows is an unordered list of possible improvements/variants of the game.
 
 * **Attack Moves**: Give players access to the strong acid HCl and the strong base NaOH.  Each acid/base will destroy the other player's cells while leaving their cells intact.  Similarly, isopropyl alcohol can be played to destroy any cell.  
-    + **Sythesis Process**: Let NaOH/HCl and isopropyl alcohol regenerate over time. 
-    + **cell Walls**: Let players enforce their cells with cell walls (or membranes) to guard against HCl/NaOH/Alcochol attacks. 
++ **Sythesis Process**: Let NaOH/HCl and isopropyl alcohol regenerate over time. 
++ **cell Walls**: Let players enforce their cells with cell walls (or membranes) to guard against HCl/NaOH/Alcochol attacks. 
 
 
 * **Alternative Objectives**: Instead of placing cells on the board, we can start with a given number of each player's cells in a predefined configuration.  You are allowed to move a cell one step in any direction or swap your cell with an opponent's adjacent cell.  Cells continue to divide based on thier connections.  The end of a game occurs after a fixed number of moves. The winner is the player with the most cells at the end of the game.  
-    + **Cell Swap**: Let player's swap their cell's with their oppoent's (enforce [no backsies](http://www.urbandictionary.com/define.php?term=no%20backsies)); 
-    + **Cell Jumps**: Let players jump their opponent's cells to convert them to one of their own (as in checkers).
++ **Cell Swap**: Let player's swap their cell's with their oppoent's (enforce [no backsies](http://www.urbandictionary.com/define.php?term=no%20backsies)); 
++ **Cell Jumps**: Let players jump their opponent's cells to convert them to one of their own (as in checkers).
 
 * **Triangular and Hexagonal Grids**: Storing a board defined over these grids can be done by modifying what it means to be adjacent to another cell.  Thus, boards can be stored and analyzed in a similar way to the rectangular grid.  The approximations that the A.I. opponents use will probably also generalize well to these types of grids. 
 

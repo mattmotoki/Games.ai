@@ -96,7 +96,7 @@ com_calc <- function(x, y) {
 }
 
 # plot a single cell with shadow and dimple
-plot_cell <- function(x, y, cellgreen) {
+plot_cell <- function(x, y, color) {
   
   # start with all black cell
   polygon(x, y, col="black", border=NA)
@@ -110,7 +110,7 @@ plot_cell <- function(x, y, cellgreen) {
   alpha <- seq(0.1, 1, length=n_layers)
   for (k in 1:n_layers) {
     polygon(shink[k]*(x-com[1])+com[1], shink[k]*(y-com[2])+com[2],
-            col=rgb(cellgreen[1], cellgreen[2], cellgreen[3], alpha[k]),
+            col=rgb(color[1], color[2], color[3], alpha[k]),
             border=NA)
   }
   
@@ -118,10 +118,10 @@ plot_cell <- function(x, y, cellgreen) {
   n_layers <- 25
   shink <- seq(0.25, 0.85, length=n_layers)^2
   alpha <- seq(0.01, 0.05, length=n_layers)
-  cellgreen <- 0.5*cellgreen
+  color <- 0.5*color
   for (k in 1:n_layers) {
     polygon(shink[k]*(x-com[1])+com[1], shink[k]*(y-com[2])+com[2],
-            col=rgb(cellgreen[1], cellgreen[2], cellgreen[3], alpha[k]),
+            col=rgb(color[1], color[2], color[3], alpha[k]),
             border=NA)
   }
 }
