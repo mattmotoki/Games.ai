@@ -2,9 +2,8 @@ name: Cell_Division
 account: mmotoki
 server: shinyapps.io
 appId: 135190
-bundleId: 615893
+bundleId: 619751
 url: https://mmotoki.shinyapps.io/cell_division/
-when: 1479272018.8885
+when: 1479628232.35739
 asMultiple: FALSE
 asStatic: FALSE
-ignoredFiles: extras/cell_design_test.R|extras/cell_logo.R|extras/cell_plot_utils.R|extras/color scheme.txt|extras/diagonal_cell_count.R|extras/multi_cell_design.R|extras/single_cell_design.R|extras/temp.png|extras/undo_move print out.docx|extras/vertical_cell_count.R

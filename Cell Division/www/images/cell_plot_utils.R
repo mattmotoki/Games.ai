@@ -1,5 +1,5 @@
 library(png)
-
+library(aws)
 
 # plotting parameters
 n_pnts <- 100
@@ -126,7 +126,6 @@ plot_cell <- function(x, y, color) {
   }
 }
 
-
 # create a blank plot
 blank_plot <- function() {
   par(mar=c(0,0,0,0), bg=NA)
@@ -135,4 +134,51 @@ blank_plot <- function() {
        xlim = c(-0.002, 1.002), ylim = c(-0.002, 1.002)
   )
 }
+
+
+
+
+# ### Smoothing
+# The final step is to smooth out the values between the edges of the polygons.  This is done in R using smoothing spines.  
+# 
+# library(data.table)
+# library(aws)
+# 
+# smooth_cell <- function(x, y) {
+#   png('temp.png', width = 800, height = 800)
+#   blank_plot()
+#   polygon(c(0,0,1,1), c(0,1,1,0),col="black") # add black background
+#   plot_cell(x, y, cellgreen)
+#   dev.off()
+#   
+#   
+#   # smooth cell
+#   img <- readPNG("temp.png")
+#   border_inds <- which(img[, , k]==0)
+#   for (k in 1:3) {
+#     # smooth entire matrix
+#     # temp <- kernsm(img[, ,k], h=10, kern="Triangle")@yhat
+#     # temp <- kernsm(img[, ,k], h=10, kern="Epanechnicov")@yhat
+#     
+#     temp <- kernsm(img[, , k], h=10, kern="Gaussian")@yhat
+#     temp[temp<0] <- 0
+#     temp[temp>1] <- 1
+#     temp[border_inds] <- 1
+#     img[, , k] <- temp
+#   }
+#   
+#   img
+# }
+# 
+# graphics.off()
+# img <- smooth_cell(x, y)
+# blank_plot()
+# rasterImage(img, 0, 0, 1, 1)
+# # abline(v=c(0, 1), h=c(0, 1))  
+# 
+# 
+# blank_plot()
+# plot_cell(x, y, cellgreen)
+# # abline(v=c(0, 1), h=c(0, 1))
+
 

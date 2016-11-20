@@ -21,7 +21,7 @@ sidebarPanel(
                     tags$a(
                       class = "game_link",
                       title = "short tutorial on how to play",
-                      href = "Rmarkdown/tutorial.html", target = "_blank",
+                      href = file.path("Rmarkdown", "tutorial.html"), target = "_blank",
                       HTML('<i class="fa fa-play-circle" aria-hidden="true"></i> Tutorial')
                     ), align = "right"            
              )
@@ -31,7 +31,7 @@ sidebarPanel(
                     tags$a(
                       class = "game_link",
                       title = "details about the game",
-                      href = "Rmarkdown/about.html", target = "_blank",
+                      href = file.path("Rmarkdown", "about.html"), target = "_blank",
                       HTML('<i class="fa fa-book" aria-hidden="true"></i> About')
                     ), align = "right"            
              )

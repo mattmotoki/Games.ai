@@ -2,7 +2,6 @@ source("cell_plot_utils.R")
 
 
 
-
 #------------------
 # cell definitions
 
@@ -38,7 +37,7 @@ quad_y <- 0.5*(quad_outline[, 2]+0.5)
 #------------------
 # logo
 graphics.off()
-png("cell_logo.png")
+# png("cell_logo.png")
 blank_plot()
 
 # inner
@@ -61,7 +60,7 @@ plot_cell(sm_sq_x, 0.5+sm_sq_y, cellgreen)
 plot_cell(sm_sq_x, 0.75+sm_sq_y, cellgreen)
 plot_cell(0.25+sm_sq_x, 0.75+sm_sq_y, cellgreen)
 
-dev.off()
+# dev.off()
 
 
 
