@@ -1,0 +1,20 @@
+{
+    "collab_server" : "",
+    "contents" : "# Game help text\noutput$help_text <- renderUI({\n  if (rv$timestep==0) {\n    if (rv$timestep==0) { \n      if (type==\"petri_game\") { \n        help_text <- \"Click anywhere in the grid to place your move.\"\n      }\n      else { \n        help_text <- \"Click in any column to place your move in the bottom row (gravity applies).\"\n      }\n    }\n    p(help_text, style=\"color: #C43B5E;\")      \n  } else {p(\"\")}\n})\n\n",
+    "created" : 1478839831284.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "3086703018",
+    "id" : "FBC7B9B1",
+    "lastKnownWriteTime" : 1478484351,
+    "last_content_update" : 1478484351,
+    "path" : "~/GitHub/Games.ai/Cell Division/server/game_options/game_help_server.R",
+    "project_path" : "server/game_options/game_help_server.R",
+    "properties" : {
+    },
+    "relative_order" : 5,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}

@@ -1,0 +1,20 @@
+{
+    "collab_server" : "",
+    "contents" : "gameUI <- function(id, tab_name, tab_icon) {\n  ns <- NS(id)\n  tabPanel(\n    title = tab_name, icon = tab_icon, useShinyjs(),\n    sidebarLayout(\n      \n      # Sidebar Panel:\n      #  tutorial/about link, board controls, player settings, github link\n      source(file.path(\"ui\", \"sidebar_panel_ui.R\"), local = TRUE)$value,\n      \n      # Main Panel:\n      #  info bar, board display, help text, game buttons\n      source(file.path(\"ui\", \"main_panel_ui.R\"), local = TRUE)$value\n    )\n  )\n}\n\nplay_game <- function(input, output, session, type) {\n  \n  # Initialize Reactive Values\n  source(file.path(\"www\", \"initial values\", \"initialize_rvs.R\"),  local = TRUE)\n  \n  # Plot Output\n  observe({\n    # don't plot player's move when playing against AI\n    if (rv$player==\"1\" && input$player_mode==\"1\" && rv$timestep>1) {return()}\n    output$board_plot <- renderPlot(plot_board( rv$plot_params, rv$connection_traj, rv$h), res = 10)\n  })\n\n  \n  # Move Implementations:  \n  #  user move, AI move, undo move, reset all moves\n  for (f in dir(file.path(\"server\", \"moves\"), full.names = TRUE)) { source(f, local = TRUE) }\n  \n  # Render Dynamic UI (server logic for all uiOutput): \n  #  info bar, board size controls, first move radio buttons\n  for (f in dir(file.path(\"server\", \"render_dynamic_UI\"), full.names = TRUE)) { source(f, local = TRUE) }\n  \n  # Game Options:\n  #  board size, game help\n  for (f in dir(file.path(\"server\", \"game_options\"), full.names = TRUE)) { source(f, local = TRUE) }\n\n  # Visual effects:\n  #  bottom main panel display, sidebar panel section folding, AI difficulty settings\n  source(file.path(\"server\", \"visual_effects.R\"),  local = TRUE)\n}",
+    "created" : 1478839811968.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "1477079735",
+    "id" : "DA0F2D06",
+    "lastKnownWriteTime" : 1478820600,
+    "last_content_update" : 1478820600,
+    "path" : "~/GitHub/Games.ai/Cell Division/game_module.R",
+    "project_path" : "game_module.R",
+    "properties" : {
+    },
+    "relative_order" : 3,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}

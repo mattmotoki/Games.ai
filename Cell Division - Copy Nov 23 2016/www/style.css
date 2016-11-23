@@ -1,0 +1,27 @@
+
+// header stuff
+#navbar_header_content {
+    color: #3BA3C4;
+}
+
+#navbar_header_logo {
+	height: 25px;
+	vertical-align: text-top;
+}
+
+// sidebar links
+a.game_link {
+	color: #3BC4A1;
+}
+a.game_link:hover {
+    color: #3BA3C4
+}
+
+a.bio_link {
+	color: #3BA3C4;
+	text-align: center;
+}
+
+
+
+

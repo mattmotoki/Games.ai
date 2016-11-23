@@ -27,20 +27,12 @@ play_game <- function(input, output, session, type) {
     output$board_plot <- renderPlot(plot_board( rv$plot_params, rv$connection_traj, rv$h), res = 10)
   })
 
-  
-  # Move Implementations:  
-  #  user move, AI move, undo move, reset all moves
-  for (f in dir(file.path("server", "moves"), full.names = TRUE)) { source(f, local = TRUE) }
-  
-  # Render Dynamic UI (server logic for all uiOutput): 
-  #  info bar, board size controls, first move radio buttons
-  for (f in dir(file.path("server", "render_dynamic_UI"), full.names = TRUE)) { source(f, local = TRUE) }
-  
-  # Game Options:
+  # Load Server Files:
   #  board size, game help
-  for (f in dir(file.path("server", "game_options"), full.names = TRUE)) { source(f, local = TRUE) }
-
-  # Visual effects:
+  #  user move, AI move, undo move, reset all moves
+  #  info bar, board size controls, first move radio buttons
   #  bottom main panel display, sidebar panel section folding, AI difficulty settings
-  source(file.path("server", "visual_effects.R"),  local = TRUE)
+  for (f in dir("server", full.names = TRUE, recursive=TRUE)) { source(f, local = TRUE) }
+  
+
 }

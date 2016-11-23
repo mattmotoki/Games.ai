@@ -1,0 +1,20 @@
+{
+    "collab_server" : "",
+    "contents" : "library(shiny)\nlibrary(shinyjs)\nlibrary(shinythemes)\nlibrary(data.table)\n\n# load external data\nsource(\"game_module.R\",  local = TRUE)\nfor (f in dir(file.path(\"www\", \"functions\"), full.names = TRUE, recursive = TRUE)) { source(f, local = TRUE) }\n\nui <- navbarPage(\n\n  title = tags$a(\n    href = \"https://github.com/boto/boto#user-content-finding-out-more-about-boto\",\n    p(tags$img(src = file.path(\"figures\", \"small_single_cell.png\"), style=\"height:25px; vertical-align: text-top\"),\n      \"Cell Division Prototype\",\n      style=\"margin:0; padding:0;\"),\n    target = \"_blank\",\n    style = \"color: #3BA3C4\"),\n  windowTitle = \"Cell Division\",\n\n  theme=shinytheme(\"flatly\"), \n  gameUI(\"petri\", \"Petri Dish\", icon(\"dot-circle-o\")),\n  gameUI(\"beaker\", \"Beaker\", icon(\"table\")),\n  gameUI(\"flask\", \"Erlenmeyer Flask\", icon(\"flask\")),\n  \n  tags$head(tags$link(rel = \"shortcut icon\", href=file.path(\"figures\", \"favicon.ico\")))\n)\n\nserver <- function(input, output, session) {\n  callModule(play_game, \"petri\", \"petri_game\")  \n  callModule(play_game, \"beaker\", \"beaker_game\") \n  callModule(play_game, \"flask\", \"flask_game\")\n}\n\n\nshinyApp(ui, server)",
+    "created" : 1478838023532.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "3253232833",
+    "id" : "96747177",
+    "lastKnownWriteTime" : 1478840266,
+    "last_content_update" : 1478840266326,
+    "path" : "~/GitHub/Games.ai/Cell Division/app.R",
+    "project_path" : "app.R",
+    "properties" : {
+    },
+    "relative_order" : 2,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}

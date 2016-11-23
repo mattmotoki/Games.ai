@@ -1,0 +1,20 @@
+{
+    "collab_server" : "",
+    "contents" : "---\ntitle: \"Cell Division Tutorial\"\nauthor: \"Matt Motoki\"\ndate: \"October 29, 2016\"\noutput: ioslides_presentation\n---\n\n\n\n## Intro\nCell Division is a strategy-based board game with a biology inspired theme.  \n\nMotivation: \n\n\n\n## Test 1\n```{r fig.width=1, fig.height=10,echo=FALSE}\nlibrary(png)\nlibrary(grid)\nimg <- readPNG(\"petri1.png\")\n grid.raster(img)\n```\n\n## Test 2\n```{r, out.width = \"100%\", echo=FALSE}\nknitr::include_graphics(\"petri1.png\")\n```",
+    "created" : 1478841873880.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "1895141315",
+    "id" : "83BE7E8D",
+    "lastKnownWriteTime" : 1478842313,
+    "last_content_update" : 1478842313476,
+    "path" : "~/GitHub/Games.ai/Cell Division/www/Rmarkdown/Cell Division Tutorial.Rmd",
+    "project_path" : "www/Rmarkdown/Cell Division Tutorial.Rmd",
+    "properties" : {
+    },
+    "relative_order" : 8,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_markdown"
+}

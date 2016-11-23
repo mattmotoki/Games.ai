@@ -1,0 +1,20 @@
+{
+    "collab_server" : "",
+    "contents" : "# Reset the reactive values (equivalent to removing all moves)\nobserveEvent(\n  c(input$reset_button, input$player_mode, input$first_move,\n    input$adaptive, input$difficulty, input$skill, input$reset_game, rv$plot_params), {\n      \n      rv$timestep <- 0\n      rv$open_pos <- NULL\n      rv$connection_traj <- NULL\n      if (!is.null(input$first_move)) { rv$player <- input$first_move }\n    }\n)\n\n\nobserveEvent(input$play_again, {\n  # update AI skill if necessary \n  if (input$player_mode==\"1\") {\n    \n    # get your score minus AI score\n    score_diff <- diff(rv$score_traj[rv$timestep + 1:2]) # last player score - other score\n    score_diff <- ifelse(rv$player==\"2\", 1, -1)*score_diff # negate score if AI was last\n    \n    # update skill by 0.5*score_diff if you lost and by score_diff if you won\n    new_skill <- max(min(input$skill + floor(ifelse(score_diff<0, 0.5, 1)*score_diff), 100), 1)\n    updateSliderInput(session, \"skill\", value = new_skill)\n    \n    # reset rvs just in case skill doesn't change\n    rv$timestep <- 0\n    rv$open_pos <- NULL\n    rv$connection_traj <- NULL\n    if (!is.null(input$first_move)) { rv$player <- input$first_move }\n  }\n})\n\n\n\n# swtich turns (switch first_move)\nobserveEvent(input$switch_turns, {\n  # update AI skill if necessary \n  if (input$player_mode==\"1\") {\n    \n    # get your score minus AI score\n    score_diff <- diff(rv$score_traj[rv$timestep + 1:2]) # last player score - other score\n    score_diff <- ifelse(rv$player==\"1\", 1, -1)\n    \n    # update skill by 0.5*score_diff if you lost and by score_diff if you won\n    new_skill <- max(min(input$skill + floor(ifelse(score_diff<0, 0.5, 1)*score_diff), 100), 1)\n    updateSliderInput(session, \"skill\", value = new_skill)\n  }\n  \n  # switch first move\n  updateRadioButtons(session, \"first_move\", selected = as.character(1+(input$first_move==\"1\")))\n})\n\n\n\n",
+    "created" : 1478839845109.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "198094646",
+    "id" : "AA7FFAA6",
+    "lastKnownWriteTime" : 1478584630,
+    "last_content_update" : 1478584630,
+    "path" : "~/GitHub/Games.ai/Cell Division/server/moves/reset_moves_server.R",
+    "project_path" : "server/moves/reset_moves_server.R",
+    "properties" : {
+    },
+    "relative_order" : 6,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}

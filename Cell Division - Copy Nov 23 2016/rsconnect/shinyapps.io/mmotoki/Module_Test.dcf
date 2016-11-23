@@ -1,0 +1,10 @@
+name: Module_Test
+account: mmotoki
+server: shinyapps.io
+appId: 135618
+bundleId: 608808
+url: https://mmotoki.shinyapps.io/Module_Test/
+when: 1478599775.546
+asMultiple: FALSE
+asStatic: FALSE
+ignoredFiles: color scheme.txt|README.md|www/Rmarkdown/about.Rmd|www/Rmarkdown/beaker1.png|www/Rmarkdown/beaker2.png|www/Rmarkdown/petri1.png|www/Rmarkdown/petri2.png|www/Rmarkdown/petri3.png|www/Rmarkdown/petri4.png|www/Rmarkdown/tutorial.html|www/Rmarkdown/tutorial.Rmd
