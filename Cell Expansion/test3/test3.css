@@ -1,0 +1,13 @@
+#board-container {
+  width: 50%;
+  height: 50%;
+  position: relative;
+  border-style: solid;
+  border-width: 1px;
+}
+#board {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}

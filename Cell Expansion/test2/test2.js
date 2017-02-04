@@ -1,4 +1,5 @@
 
+var n = 3;
 var canvas = document.querySelector("#test-canvas");
 var ctx = canvas.getContext("2d");
 
