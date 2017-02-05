@@ -1,3 +1,8 @@
-#test-canvas {
-  border: solid;
+canvas {
+	display: flex;
+	max-width: 100vh;
+	max-height: 100vw;
+	position:absolute;
+	left:calc((100vw - 725px)/2);
+	top:0px;
 }
