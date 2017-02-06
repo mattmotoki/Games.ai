@@ -1,7 +1,7 @@
 (function () {
     var n = 3,
         margin = 10,
-        indent = 10,
+        indent = 0.2,
         board = document.querySelector("#board"),
         ctx = board.getContext("2d"),
         container = document.querySelector("#board-container"),
@@ -41,6 +41,7 @@
     function redraw() {
         drawGrid();
         drawOutline(bezier_list);
+        mid(0, -n).forEach(drawDot);
     }
 
     function drawOutline(bezier_list) {
@@ -73,43 +74,34 @@
         ctx.restore();
     }
 
-    function drawDot(x, y, r = scale(0.05) - margin) {
+    function drawDot(pos, r = 3) {
         // draw circle
         ctx.save();
         ctx.beginPath();
-        ctx.arc(x, y, r, 0, 2 * Math.PI, false);
+        ctx.fillStyle = "#D3D3D3";
+        ctx.arc(scale(pos[0]), scale(pos[1]), 3, 0, 2 * Math.PI, false);
         ctx.fill();
         ctx.restore();
     }
 
+    /* ------------------- */
+    /*  Utility functions  */
+    /* ------------------- */
     // convert coordinates to pixels
     function scale(x) {
         return x * (board_size - 2 * margin) / n + margin;
     }
-
-    // line segment functions
-    function mid(ind, pos) {
-        var seg
-        
-        // set 
-        if (pos>0) {seg = [indent, 0, 0.5, 0, 1-indent, 0];}
-        else       {seg = [indent, 0, 0.5, 0, 1-indent, 0];}
-        
-        
-        switch(pos) {
-            case 1: 
-                seg = [indent, 0, 0.5, 0, 1-indent, 0];
-                break;
-            case -1: 
-                seg = [indent, 1, 0.5, 1, 1-indent, 1];
-                break;
-            case n:
-                seg = [1, indent, 1, 0.5, 1, 1-indent];
-                break;                
-            case -n:
-                seg = [0, indent, 0, 0.5, 0, 1-indent];
-                break;                
+    function ind2row(ind) {return ind % n;}
+    function ind2col(ind) {return Math.floor(ind/n);}    
+    function shiftByInd(pnt, ind) {
+        return [pnt[0]+ind2col(ind), pnt[1] + ind2row(ind)];
+    }
+    function groupPoints(old_array) {
+        var new_array = [];
+        for (var i=0; i<old_array.length/2; i+=1) {
+            new_array.push([old_array[2*i], old_array[2*i+1] ]);
         }
+        return new_array;
     }
 
     function arrayRotate(arr, reverse){
@@ -117,6 +109,49 @@
         else { arr.push(arr.shift()) }
         return arr
     } 
+
+    /* ------------------------ */
+    /*  Line Segment Functions  */
+    /* ------------------------ */
+    // mid-section
+    function mid(ind, pos) {
+        // use |pos|=1 as default segment
+        var sign = (pos>0) ? 1 : -1; // sign of position
+        var side = 1*(pos>0);        // 0 or 1 side                          
+        var seg = [
+            0.5 + sign*(indent-0.5), side, // 1st point
+            0.5,                     side, // 2nd point
+            0.5 - sign*(indent-0.5), side, // 3rd point
+        ]; 
+        
+        // convert vertical to horizontal
+        if (Math.abs(pos)==n) {seg.reverse();}
+        
+        // map flat array to point-array and shift points
+        return groupPoints(seg).map((pnt)=>shiftByInd(pnt, ind));
+    }
+    
+    // flat-corner
+    function flat(ind, connect, pos) {
+        // use connect=1 and pos=1 as default 
+
+        if (Math.abs(connect)==1) {
+            // top or bottom connection    
+
+        } else {
+            // left or right connection
+        }
+        return 0;
+    }
+    // inside-corner
+    function inside(ind, pos) {
+        return 0;
+    }
+    // outside-corner
+    function outside(ind, pos) {
+        return 0;
+    }    
+
 })();
 
 
