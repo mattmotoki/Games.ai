@@ -42,6 +42,9 @@
         drawGrid();
         drawOutline(bezier_list);
         mid(0, -n).forEach(drawDot);
+
+        flat(4, -n, 1).slice(0,2).forEach(drawDot);
+
     }
 
     function drawOutline(bezier_list) {
@@ -107,8 +110,10 @@
     function arrayRotate(arr, reverse){
         if(reverse) { arr.unshift(arr.pop()) } 
         else { arr.push(arr.shift()) }
-        return arr
+        return arr;
     } 
+
+    function sign(x) {return (x>0) ? 1 : -1;} 
 
     /* ------------------------ */
     /*  Line Segment Functions  */
@@ -116,32 +121,44 @@
     // mid-section
     function mid(ind, pos) {
         // use |pos|=1 as default segment
-        var sign = (pos>0) ? 1 : -1; // sign of position
-        var side = 1*(pos>0);        // 0 or 1 side                          
+        var pos_sign = sign(pos); // sign of position
+        var side = 1*(pos>0);     // 0 or 1 side                          
         var seg = [
-            0.5 + sign*(indent-0.5), side, // 1st point
-            0.5,                     side, // 2nd point
-            0.5 - sign*(indent-0.5), side, // 3rd point
+            0.5 + pos_sign*(indent-0.5), side, // 1st point
+            0.5,                         side, // 2nd point
+            0.5 - pos_sign*(indent-0.5), side // 3rd point
         ]; 
-        
+
         // convert vertical to horizontal
         if (Math.abs(pos)==n) {seg.reverse();}
-        
-        // map flat array to point-array and shift points
-        return groupPoints(seg).map((pnt)=>shiftByInd(pnt, ind));
+
+        // map flat array to point-array
+        seg = groupPoints(seg);
+
+        // shift points
+        return seg.map((pnt)=>shiftByInd(pnt, ind));
     }
-    
+
     // flat-corner
     function flat(ind, connect, pos) {
-        // use connect=1 and pos=1 as default 
+        var cnct_sign = sign(connect); // sign of connect
+        var cnct_side = 1*(connect>0); // 0 or 1 side
+        var pos_side = 1*(pos>0);      // 0 or 1 side
 
-        if (Math.abs(connect)==1) {
-            // top or bottom connection    
+        var seg = [
+            pos_side,  cnct_side,                       // 1st point
+            pos_side, 0.5 + cnct_sign*(0.5 - indent/2), // 2nd point
+            pos_side, 0.5 + cnct_sign*(0.5 - indent)    // 3rd point
+        ];             
 
-        } else {
-            // left or right connection
-        }
-        return 0;
+        // convert vertical to horizontal
+        if (Math.abs(connect)==n) {seg.reverse();}
+
+        // map flat array to point-array
+        seg = groupPoints(seg);
+
+        //shift points
+        return seg.map((pnt)=>shiftByInd(pnt, ind));
     }
     // inside-corner
     function inside(ind, pos) {
