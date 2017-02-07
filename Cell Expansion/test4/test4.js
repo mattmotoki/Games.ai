@@ -21,7 +21,6 @@
         ];
 
 
-
     // initialize
     window.addEventListener("load", resizeCanvas, false);
     window.addEventListener("resize", resizeCanvas, false);
@@ -43,7 +42,6 @@
         drawOutline(bezier_list);
         mid(0, -n).forEach(drawDot);
 
-        flat(4, -n, 1).slice(0,2).forEach(drawDot);
 
     }
 
@@ -95,7 +93,7 @@
         return x * (board_size - 2 * margin) / n + margin;
     }
     function ind2row(ind) {return ind % n;}
-    function ind2col(ind) {return Math.floor(ind/n);}    
+    function ind2col(ind) {return Math.floor(ind/n);}
     function shiftByInd(pnt, ind) {
         return [pnt[0]+ind2col(ind), pnt[1] + ind2row(ind)];
     }
@@ -108,12 +106,12 @@
     }
 
     function arrayRotate(arr, reverse){
-        if(reverse) { arr.unshift(arr.pop()) } 
+        if(reverse) { arr.unshift(arr.pop()) }
         else { arr.push(arr.shift()) }
         return arr;
-    } 
+    }
 
-    function sign(x) {return (x>0) ? 1 : -1;} 
+    function sign(x) {return (x>0) ? 1 : -1;}
 
     /* ------------------------ */
     /*  Line Segment Functions  */
@@ -122,12 +120,12 @@
     function mid(ind, pos) {
         // use |pos|=1 as default segment
         var pos_sign = sign(pos); // sign of position
-        var side = 1*(pos>0);     // 0 or 1 side                          
+        var side = 1*(pos>0);     // 0 or 1 side
         var seg = [
             0.5 + pos_sign*(indent-0.5), side, // 1st point
             0.5,                         side, // 2nd point
             0.5 - pos_sign*(indent-0.5), side // 3rd point
-        ]; 
+        ];
 
         // convert vertical to horizontal
         if (Math.abs(pos)==n) {seg.reverse();}
@@ -149,13 +147,18 @@
             pos_side,  cnct_side,                       // 1st point
             pos_side, 0.5 + cnct_sign*(0.5 - indent/2), // 2nd point
             pos_side, 0.5 + cnct_sign*(0.5 - indent)    // 3rd point
-        ];             
+        ];
 
         // convert vertical to horizontal
         if (Math.abs(connect)==n) {seg.reverse();}
 
         // map flat array to point-array
         seg = groupPoints(seg);
+
+        if (Math.abs(connect-pos)==n+1 ){ seg.reverse(); }
+
+
+
 
         //shift points
         return seg.map((pnt)=>shiftByInd(pnt, ind));
@@ -167,7 +170,7 @@
     // outside-corner
     function outside(ind, pos) {
         return 0;
-    }    
+    }
 
 })();
 
