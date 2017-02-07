@@ -40,8 +40,10 @@
     function redraw() {
         drawGrid();
         drawOutline(bezier_list);
-        mid(0, -n).forEach(drawDot);
-
+        mid(4, 1).forEach(drawDot);
+        mid(4, n).forEach(drawDot);
+        mid(4, -1).forEach(drawDot);
+        mid(4, -n).forEach(drawDot);
     }
 
     function drawOutline(bezier_list) {
@@ -117,20 +119,27 @@
     /* ------------------------ */
     // mid-section
     function mid(ind, pos) {
-        // use |pos|=1 as default segment
-        var pos_sign = sign(pos); // sign of position
-        var side = 1*(pos>0);     // 0 or 1 side
-        var seg = [
-            0.5 + pos_sign*(indent-0.5), side, // 1st point
-            0.5,                         side, // 2nd point
-            0.5 - pos_sign*(indent-0.5), side // 3rd point
-        ];
-
-        // convert vertical to horizontal
-        if (Math.abs(pos)==n) {seg.reverse();}
-
-        // map flat array to point-array
-        seg = groupPoints(seg);
+      var seg
+      switch(pos) {
+        case  1: seg = [ [indent,   1], [0.5, 1], [1-indent, 1] ]; break;
+        case  n: seg = [ [1, 1-indent], [1, 0.5], [1,   indent] ]; break;
+        case -1: seg = [ [1-indent, 0], [0.5, 0], [indent,   0] ]; break;
+        case -n: seg = [ [0,   indent], [0, 0.5], [0, 1-indent] ]; break;
+      }
+        // // use |pos|=1 as default segment
+        // var pos_sign = sign(pos); // sign of position
+        // var side = 1*(pos>0);     // 0 or 1 side
+        // var seg = [
+        //     0.5 + pos_sign*(indent-0.5), side, // 1st point
+        //     0.5,                         side, // 2nd point
+        //     0.5 - pos_sign*(indent-0.5), side // 3rd point
+        // ];
+        //
+        // // convert vertical to horizontal
+        // if (Math.abs(pos)==n) {seg.reverse();}
+        //
+        // // map flat array to point-array
+        // seg = groupPoints(seg);
 
         // shift points
         return seg.map((pnt)=>shiftByInd(pnt, ind));
