@@ -42,7 +42,6 @@
         drawOutline(bezier_list);
         mid(0, -n).forEach(drawDot);
 
-
     }
 
     function drawOutline(bezier_list) {
@@ -155,17 +154,23 @@
         // map flat array to point-array
         seg = groupPoints(seg);
 
+        // reverse points
         if (Math.abs(connect-pos)==n+1 ){ seg.reverse(); }
-
-
-
 
         //shift points
         return seg.map((pnt)=>shiftByInd(pnt, ind));
     }
     // inside-corner
-    function inside(ind, pos) {
-        return 0;
+    function inside(ind, corner) {
+      var seg
+      switch(corner) {
+        case  n+1: seg = [ [1-indent, 1], [1, 1], [1, 1-indent] ]; break;
+        case  n-1: seg = [ [1,   indent], [1, 0], [1-indent, 0] ]; break;
+        case -n-1: seg = [ [indent,   0], [0, 0], [0,   indent] ]; break;
+        case -n+1: seg = [ [0, 1-indent], [0, 1], [indent,   1] ]; break;
+      }
+      //shift points
+      return seg.map((pnt)=>shiftByInd(pnt, ind));
     }
     // outside-corner
     function outside(ind, pos) {
