@@ -173,8 +173,16 @@
       return seg.map((pnt)=>shiftByInd(pnt, ind));
     }
     // outside-corner
-    function outside(ind, pos) {
-        return 0;
+    function outside(ind, corner) {
+      var seg
+      switch(corner) {
+        case  n+1: seg = [ [1, 1+indent], [1, 1], [1+indent, 1] ]; break;
+        case  n-1: seg = [ [1+indent, 0], [1, 0], [1,  -indent] ]; break;
+        case -n-1: seg = [ [0,  -indent], [0, 0], [-indent,  0] ]; break;
+        case -n+1: seg = [ [-indent,  1], [0, 1], [0, 1+indent] ]; break;
+      }
+      //shift points
+      return seg.map((pnt)=>shiftByInd(pnt, ind));
     }
 
 })();
