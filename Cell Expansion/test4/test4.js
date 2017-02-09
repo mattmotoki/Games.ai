@@ -152,27 +152,38 @@
   }
   // flat-corner
   function flat(ind, connect, pos) {
-    var cnct_sign = sign(connect); // sign of connect
-    var cnct_side = 1*(connect>0); // 0 or 1 side
-    var pos_side = 1*(pos>0);      // 0 or 1 side
-
-    var seg = [
-      pos_side,  cnct_side,                       // 1st point
-      pos_side, 0.5 + cnct_sign*(0.5 - indent/2), // 2nd point
-      pos_side, 0.5 + cnct_sign*(0.5 - indent)    // 3rd point
-    ];
-
-    // convert vertical to horizontal
-    if (Math.abs(connect)==n) {seg.reverse();}
-
-    // map flat array to point-array
-    seg = groupPoints(seg);
-
-    // reverse points
-    if (Math.abs(connect-pos)==n+1 ){ seg.reverse(); }
-
-    //shift points
+    var seg
+    if      (connect==1  && pos== n) {seg = [ [1,        1], [1, 1-indent/2], [1, 1-indent] ];}
+    else if (connect==1  && pos==-n) {seg = [ [0, 1-indent], [0, 1-indent/2], [0,        1] ];}
+    else if (connect==-1 && pos== n) {seg = [ [1,   indent], [1,   indent/2], [1,        0] ];}
+    else if (connect==-1 && pos==-n) {seg = [ [0,        0], [0,   indent/2], [0,   indent] ];}
+    else if (connect==n  && pos== 1) {seg = [ [1-indent, 1], [1-indent/2, 1], [1,        1] ];}
+    else if (connect==n  && pos==-1) {seg = [ [1,        0], [1-indent/2, 0], [1-indent, 0] ];}
+    else if (connect==-n && pos== 1) {seg = [ [0,        1], [indent/2,   1], [indent,   1] ];}
+    else if (connect==-n && pos==-1) {seg = [ [indent,   0], [indent/2,   0], [0,        0] ];}
     return seg.map((pnt)=>shiftByInd(pnt, ind));
+
+    // var cnct_sign = sign(connect); // sign of connect
+    // var cnct_side = 1*(connect>0); // 0 or 1 side
+    // var pos_side = 1*(pos>0);      // 0 or 1 side
+    //
+    // var seg = [
+    //   pos_side,  cnct_side,                       // 1st point
+    //   pos_side, 0.5 + cnct_sign*(0.5 - indent/2), // 2nd point
+    //   pos_side, 0.5 + cnct_sign*(0.5 - indent)    // 3rd point
+    // ];
+    //
+    // // convert vertical to horizontal
+    // if (Math.abs(connect)==n) {seg.reverse();}
+    //
+    // // map flat array to point-array
+    // seg = groupPoints(seg);
+    //
+    // // reverse points
+    // if (Math.abs(connect-pos)==n+1 ){ seg.reverse(); }
+    //
+    // //shift points
+    // return seg.map((pnt)=>shiftByInd(pnt, ind));
   }
 
 })();
