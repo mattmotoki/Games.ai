@@ -5,17 +5,14 @@
   board = document.querySelector("#board"),
   ctx = board.getContext("2d"),
   container = document.querySelector("#board-container"),
-  board_size = Math.min(
-    container.clientWidth,
-    container.clientHeight
-  ),
-  path = newCell(8);
-  console.log(path);
+  board_size = Math.min(container.clientWidth, container.clientHeight),
+  path = newCell(4);
+
 
   // initialize
   window.addEventListener("load", resizeCanvas, false);
-  window.addEventListener("resize", resizeCanvas, false);
   resizeCanvas();
+
 
   function resizeCanvas() {
     board_size = Math.min(container.clientWidth, container.clientHeight);
@@ -33,30 +30,15 @@
   function drawPath(path) {
     ctx.save();
     ctx.beginPath();
-    ctx.moveTo(scale(path[0][0][0]), scale(path[0][0][1]))
+    ctx.moveTo(path[0][0][0], path[0][0][1])
     path.forEach(function(seg) {
-      ctx.quadraticCurveTo(
-        scale(seg[1][0]), scale(seg[1][1]),
-        scale(seg[2][0]), scale(seg[2][1])
-      );
+      ctx.quadraticCurveTo(seg[1][0], seg[1][1], seg[2][0], seg[2][1]);
     })
     ctx.stroke();
     ctx.fill();
     ctx.restore();
   }
-  // function drawOutline(path) {
-  //   var seg = path[0]
-  //   ctx.save();
-  //   ctx.beginPath();
-  //   ctx.moveTo(scale(seg[0]), scale(seg[1]));
-  //   path.forEach(function (seg) {
-  //     seg_px = seg.map(scale);
-  //     ctx.quadraticCurveTo(seg_px[2], seg_px[3], seg_px[4], seg_px[5]);
-  //   })
-  //   ctx.stroke();
-  //   ctx.fill();
-  //   ctx.restore();
-  // }
+
 
   function drawGrid() {
     ctx.save();
@@ -93,8 +75,8 @@
   }
   function ind2row(ind) {return ind % n;}
   function ind2col(ind) {return Math.floor(ind/n);}
-  function shiftByInd(pnt, ind) {
-    return [pnt[0]+ind2col(ind), pnt[1] + ind2row(ind)];
+  function shiftAndScale(pnt, ind) {
+    return [pnt[0]+ind2col(ind), pnt[1] + ind2row(ind)].map((x)=>scale(x));
   }
   function groupPoints(old_array) {
     var new_array = [];
@@ -124,7 +106,7 @@
       case -1: seg = [ [1-indent, 0], [0.5, 0], [indent,   0] ]; break;
       case -n: seg = [ [0,   indent], [0, 0.5], [0, 1-indent] ]; break;
     }
-    return seg.map((pnt)=>shiftByInd(pnt, ind));
+    return seg.map((pnt)=>shiftAndScale(pnt, ind));
   }
   // inside-corner
   function inside(ind, corner) {
@@ -135,7 +117,7 @@
       case -n-1: seg = [ [indent,   0], [0, 0], [0,   indent] ]; break;
       case -n+1: seg = [ [0, 1-indent], [0, 1], [indent,   1] ]; break;
     }
-    return seg.map((pnt)=>shiftByInd(pnt, ind));
+    return seg.map((pnt)=>shiftAndScale(pnt, ind));
   }
   // outside-corner
   function outside(ind, corner) {
@@ -146,7 +128,7 @@
       case -n-1: seg = [ [0,  -indent], [0, 0], [-indent,  0] ]; break;
       case -n+1: seg = [ [-indent,  1], [0, 1], [0, 1+indent] ]; break;
     }
-    return seg.map((pnt)=>shiftByInd(pnt, ind));
+    return seg.map((pnt)=>shiftAndScale(pnt, ind));
   }
   // flat-corner
   function flat(ind, connect, pos) {
@@ -170,7 +152,7 @@
     if (Math.abs(connect-pos)==n+1 ){ seg.reverse(); }
 
     //shift points
-    return seg.map((pnt)=>shiftByInd(pnt, ind));
+    return seg.map((pnt)=>shiftAndScale(pnt, ind));
   }
 
 
@@ -185,6 +167,8 @@
       inside(ind, -n+1), mid(ind,  1)
     ];
   }
+
+
 
 })();
 
